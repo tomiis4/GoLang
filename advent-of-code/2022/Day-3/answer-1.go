@@ -18,7 +18,6 @@ func getDifferent(arr1 []string, arr2 []string) []string {
 		
 		if isContain && isPrev == false {
 			result = append(result, value)
-			fmt.Println(value)
 		}
 	}
 	
