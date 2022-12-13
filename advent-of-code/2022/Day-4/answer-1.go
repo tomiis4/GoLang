@@ -9,22 +9,6 @@ import (
 	"strings"
 )
 
-func getDifferent(arr1 []string, arr2 []string) []string {
-	result := []string{}
-	
-	for _, value := range arr1 {
-		str := strings.Join(arr2, "")
-		isContain := strings.Contains(str, value)
-		isPrev := strings.Contains(strings.Join(result, ""), value)
-		
-		if isContain && isPrev == false {
-			result = append(result, value)
-		}
-	}
-	
-	return result
-}
-
 func main() {
 	// parse data
 	content, err := ioutil.ReadFile("input.txt")
