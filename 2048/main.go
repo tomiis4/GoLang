@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-const boardSize int = 4 
+const boardSize int = 5 
 
 
 func getBoard() []int {
@@ -28,7 +28,7 @@ func printBoard(board []int) {
 		line = append(line, elem)
 		
 		if i%boardSize == boardSize-1{
-			fmt.Println(line)
+			fmt.Println(" ", line)
 			line = []int{}
 		}
 	}
@@ -55,7 +55,8 @@ func mergeLine(line []int) []int {
 	
 	for i:=0; i < len(newLine)-1; i++ {
 		if newLine[i] == newLine[i+1] {
-			newLine[i] = newLine[i]*2
+			newLine[i] = newLine[i] + newLine[i+1]
+			newLine[i+1] = 0
 		}
 	}
 	
@@ -119,6 +120,70 @@ func shiftX(board []int, side string) []int {
 	return newBoard
 }
 
+func shiftY(board []int, side string) []int {
+	size := boardSize*boardSize
+	newBoard := []int{} 
+	line := []int{}
+	
+	// make board full to fix out of range bug
+	for i:=0; i < size; i++ {
+		newBoard = append(newBoard, 0)
+	}
+	
+	for x:=0; x < boardSize; x++ {
+		// get line
+		for y:=0; y < boardSize; y++ {
+			index := (boardSize * y) + x
+			line = append(line, board[index])
+		}
+		
+		// shift left
+		if side == "up" {
+			j := 0
+			for k:=0; k < len(line); k++ {
+				if line[k] != 0 {
+					line[j] = line[k]
+					j++
+				}
+			}
+			
+			// fill with 0
+			for k := j; k < len(line); k++ {
+			   line[k] = 0
+			}
+		}
+		
+		// shift down 
+		if side == "down" {
+			j := len(line)-1
+			for k:=len(line)-1; k >= 0; k-- {
+				if line[k] != 0 {
+					line[j] = line[k]
+					j--
+				}
+			}
+			
+			// fill with 0
+			for k := 0; k <= j; k++ {
+		   line[k] = 0
+			}
+		}
+		
+		line = mergeLine(line)
+		
+		// append to array
+		for k:=0; k < len(line); k++ {
+			letter := line[k]
+			
+			newBoard[k*boardSize+x] = letter
+		}
+		
+		line = []int{}
+	}
+	
+	return newBoard
+}
+
 func getInput(board []int) []int {
 	var keyPressed string
 	var newBoard = board
@@ -131,8 +196,10 @@ func getInput(board []int) []int {
 	
 	switch keyPressed {
 		case "w":
+			newBoard = shiftY(board, "up")
 			randomNum(newBoard)
 		case "s":
+			newBoard = shiftY(board, "down")
 			randomNum(newBoard)
 		case "a":
 			newBoard = shiftX(board, "left")
@@ -145,19 +212,28 @@ func getInput(board []int) []int {
 	return newBoard
 }
 
+func getScore (board []int) int {
+	biggest := 0
+	
+	for i:=0; i < len(board); i++ {
+		if board[i] > biggest {
+			biggest = board[i]
+		}
+	}
+	
+	return biggest
+}
+
 func main() {
 	// Variables
 	board := getBoard()
-	highScore := 0
 	
 	// game loop
 	for ;; {
-		// game info
 		fmt.Println("\n \n ")
-		fmt.Println("2048")
-		fmt.Println("Higest score: ", highScore)
+		fmt.Println(" The 2048")
+		fmt.Println(" Higest score: ", getScore(board))
 		
-		// game functions
 		printBoard(board)
 		board = getInput(board)
 	}
