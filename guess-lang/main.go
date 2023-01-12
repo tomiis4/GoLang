@@ -43,6 +43,15 @@ func delay(ms time.Duration) {
 	time.Sleep(ms * time.Millisecond)
 }
 
+func getIndex(arr []string, elem string) int {
+	for i, value := range arr {
+		if value == elem {
+			return i
+		}
+	}
+	return -1
+}
+
 func getLine(strArr []string) string {
 	//FIXME need fix tho
 	letterLen := len(strings.Split(strings.Join(strArr, " "), "")) *2+3
@@ -120,18 +129,56 @@ func displayUI(score uint16, questionScore uint8, code []string, codeRevaled uin
 }
 
 func main() {
-	code := []string{"#include <stdio.h>", "int main(", "  printf(Helloworld);", "  return 0;"} 
-	codeRevaled := uint8(0)
+	// lang
 	currentLang := "C"
 	languages := getLanguages(currentLang)
+	langIndex := getIndex(languages, currentLang) 
+	//code
+	code := []string{"#include <stdio.h>", "int main(", "  printf(Helloworld);", "  return 0;"} 
+	codeRevaled := uint8(0)
+	// score
 	score := uint16(2000)
 	questionScore := uint8(250)
 	
+	// game loop
+	inputChannel := make(chan int)
 	
-	for ;; {
-		displayUI(score, questionScore, code, codeRevaled, languages)
-		codeRevaled++
-		delay(1500)
-	}
+	// goroutine input
+	go func() {
+		// scan for input
+		for ;; {
+			var numberInput int 
+			fmt.Scanf("%d", &numberInput)
+			// send data to another thread
+			inputChannel <- numberInput
+		}
+	}()
 	
+	go func() {	
+		for ;; {
+			displayUI(score, questionScore, code, codeRevaled, languages)
+			
+			// change
+			codeRevaled++
+			if questionScore-25 >=0 { questionScore-=25 }
+			delay(1500)
+			
+			// check for input
+			select {
+				case numberInput := <- inputChannel:
+					// if you guess corrent lang
+					if numberInput == langIndex+1 {
+						// add score
+						score += uint16(questionScore)
+						questionScore = 250
+						codeRevaled = 0
+					}
+				default:
+					// nothing (this should never activate, because int will be always 0 I guess)
+			}
+		}
+	}()
+	
+	// check for end
+	select {}
 }
