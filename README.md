@@ -99,7 +99,10 @@ var a = map[string]string{"key1": "value1"}
 
 ## Read file 
 ```go
-import ("fmt" "io/ioutil")
+import (
+	"fmt" 
+	"io/ioutil"
+)
 
 func main() {
 	content, err := ioutil.ReadFile("file.txt")
@@ -109,5 +112,25 @@ func main() {
 	}
 	
 	fmt.Println(content)
+}
+```
+
+## Regex 
+```go
+import "regexp"
+
+// split using regex
+var pattern string = `\r?\n`
+regexObj := regexp.MustCompile(pattern)
+data := regexObj.Split(str, -1)
+```
+
+## Time
+### Delay
+```go
+import "time"
+
+func delay(ms time.Duration) {
+	time.Sleep(ms * time.Millisecond)
 }
 ```
