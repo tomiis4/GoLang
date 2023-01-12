@@ -8,6 +8,7 @@ CLI game, where you can test your programming language guessing skills
 - [ ] Code from github
 - [x] guess lang
 - [ ] if wrong lang, remove it
+- [ ] code parser from github code
 - [x] Score
 - [x] code reval
 
