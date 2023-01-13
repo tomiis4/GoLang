@@ -19,17 +19,9 @@ type Repo struct {
     URL string `json:"html_url"`
 }
 
-
-// type Files struct {
-//     Items []File
-// }
-
-// type File struct {
-//     Name string `json:"name"`
-//     ContentUrl string `json:"download_url"`
-// }
 type File struct {
     Name string `json:"name"`
+    ContentUrl string `json:"download_url"`
 }
 
 func randInt(max int) int {
