@@ -5,10 +5,10 @@ CLI game, where you can test your programming language guessing skills
 ### Todo
 - [x] UI
 - [ ] Colors
-- [ ] Code from github
+- [x] Code from github
 - [x] guess lang
-- [ ] if wrong lang, remove it
-- [ ] code parser from github code
+- [ ] if wrong lang, remove option
+- [x] code parser from github code
 - [x] Score
 - [x] code reval
 
