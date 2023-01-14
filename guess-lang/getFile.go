@@ -1,10 +1,13 @@
 package main
 
 import (
+	// "encoding/base64"
+	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"math/rand"
 	"net/http"
+	"regexp"
 	"strings"
 	"time"
 )
@@ -17,11 +20,17 @@ type Repo struct {
     Name string `json:"name"`
     Description string `json:"description"`
     URL string `json:"html_url"`
+    Branch string `json:"default_branch"`
+}
+
+type Files struct {
+    Items []File `json:"tree"`
 }
 
 type File struct {
     Name string `json:"name"`
-    ContentUrl string `json:"download_url"`
+    PathName string `json:"path"`
+    Content string `json:"content"`
 }
 
 func randInt(max int) int {
@@ -32,7 +41,7 @@ func randInt(max int) int {
 	 return randomNum
 }
 
-func getRepoUrl(lang string) string {
+func getRepoUrl(lang string) [2]string {
     link := "https://api.github.com/search/repositories?q=language:"+ lang +"&sort=stars"
     
     // send req.
@@ -45,22 +54,27 @@ func getRepoUrl(lang string) string {
     json.NewDecoder(resp.Body).Decode(&repositories)
     
     // make sure there is at least 1 repo
-    if len(repositories.Items) == 0 { return ""}
+    if len(repositories.Items) == 0 { return [2]string{"", ""}}
     
     // get repo
     randomRepo := repositories.Items[randInt(len(repositories.Items))]
     repoUrl := randomRepo.URL
+    repoBranch := randomRepo.Branch
     
     // log it
-    fmt.Println("name:", randomRepo.Name)
-    fmt.Println("url:", repoUrl)
+    fmt.Println("Repo Name:", randomRepo.Name)
+    fmt.Println("Repo URL:", repoUrl)
+    fmt.Println("Repo Branch", repoBranch)
+    fmt.Println("\n")
     
-    return repoUrl
+    result := [2]string{repoUrl, repoBranch}
+    
+    return result
 }
 
-func getFile(url string) {
+func getFile(url string, branch string) string {
     nameUrl := strings.Replace(url, "https://github.com/", "", 1)
-    repoUrl := "https://api.github.com/repos/" + nameUrl + "/contents"
+    repoUrl := "https://api.github.com/repos/" + nameUrl + "/git/trees/" + branch + "?recursive=1"
     
     // send req.
     resp, err := http.Get(repoUrl)
@@ -68,16 +82,72 @@ func getFile(url string) {
     defer resp.Body.Close()
     
     // get repos from req. and convert it
-    var files []File
+    var files Files
     json.NewDecoder(resp.Body).Decode(&files)
     
     // make sure there is at least 1 repo
-    if len(files) == 0 { fmt.Println("No items were found") }
+    if len(files.Items) == 0 { fmt.Println("No items were found") }
     
-    fmt.Println(files)
+    
+    // get files which have extension "ts"
+    selectedFiles := []string{}
+    for _, value := range files.Items {
+        if strings.HasSuffix(value.PathName, "ts") {
+            selectedFiles = append(selectedFiles, value.PathName)
+        }
+    }
+    
+    if len(selectedFiles) <=0 { fmt.Println("There is not any file") }
+    
+    return selectedFiles[randInt(len(selectedFiles))]
+}
+
+func getFileContent(nameUrl string, fileName string) string {
+    fileUrl := strings.Replace(nameUrl, "https://github.com/", "", 1)
+    repoUrl := "https://api.github.com/repos/" + fileUrl + "/contents/" + fileName
+    
+    // send req.
+    resp, err := http.Get(repoUrl)
+    if err != nil { fmt.Println(err) }
+    defer resp.Body.Close()
+    
+    // get repos from req. and convert it
+    var randomFile File
+    json.NewDecoder(resp.Body).Decode(&randomFile)
+    
+    return randomFile.Content
+}
+
+func parseFile(content string) []string {
+    // convert base64 to string
+    data, _ := base64.URLEncoding.DecodeString(content)
+    
+    // split by lines
+    dataStr := string(data)
+    regexPattern := `\r?\n` // end of the line
+    regexObj := regexp.MustCompile(regexPattern)
+    
+    // split string
+    fileResult := regexObj.Split(dataStr, -1)
+    
+    // first 13 lines
+    guessContent := []string{}
+    for i:=0; i < 13; i++ {
+        guessContent = append(guessContent, fileResult[i])
+    }
+    
+    return guessContent 
 }
 
 func main() { 
-    repoUrl := getRepoUrl("typescript")
-    getFile(repoUrl)
+    repo := getRepoUrl("typescript")
+    
+    repoUrl := repo[0]
+    repoBranch := repo[1]
+    fillName := getFile(repoUrl, repoBranch)
+    
+    contentBase64 := getFileContent(repoUrl, fillName)
+    result := parseFile(contentBase64)
+    
+    fmt.Println(result)
 }
