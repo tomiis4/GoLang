@@ -3,8 +3,11 @@ package main
 import (
 	"fmt"
 	"math/rand"
+	"os"
+	"os/exec"
 	"strings"
 	"time"
+	file "github.com/tomiis4/getFile"
 )
 
 func replaceStr(str string, with string) string {
@@ -81,7 +84,7 @@ func displayCode(codeBlock []string, level uint8) {
 
 func getLanguages(current string) []string {
 	languagesChoices := 4
-	languages := [17]string{"Java", "C", "Python", "C++", "C#", "P*P", "JavaScript", "SQL", "Ruby", "Matlab", "Swift", "Go", "COBOL", "Fortran", "Rust", "Haskell", "Bash"}
+	languages := [18]string{"Java", "C", "Python", "TypeScript", "C++", "C#", "P*P", "JavaScript", "SQL", "Ruby", "Matlab", "Swift", "Go", "COBOL", "Fortran", "Rust", "Haskell", "Bash"}
 	selectedLanguages := []string{}
 	
 	// create arr of langs
@@ -119,25 +122,33 @@ func displayUI(score uint16, questionScore uint8, code []string, codeRevaled uin
 	// score
 	fmt.Println("Total score:", score)
 	fmt.Println("Current score:", questionScore)
-	fmt.Println(strSpace)
+	fmt.Println("\n",strSpace, "\n ")
 	// code
 	displayCode(code, codeRevaled)
-	fmt.Println(strSpace)
+	fmt.Println("\n",strSpace, "\n ")
 	// languages
 	displayLanguages(languages)
 	fmt.Println(strSpace)
 }
 
+func clearConsole() {
+	cmd := exec.Command("cls")
+	cmd.Stdout = os.Stdout
+	cmd.Run()
+}
+
 func main() {
 	// lang
-	currentLang := "C"
+	currentLang := "TypeScript"
+	// currentLang := "C"
 	languages := getLanguages(currentLang)
 	langIndex := getIndex(languages, currentLang) 
 	//code
-	code := []string{"#include <stdio.h>", "int main(", "  printf(Helloworld);", "  return 0;"} 
+	code := file.GetContent("typescript")
+	// code := []string{"#include <stdio.h>", "int main(", "  printf(Helloworld);", "  return 0;"} 
 	codeRevaled := uint8(0)
 	// score
-	score := uint16(2000)
+	score := uint16(0)
 	questionScore := uint8(250)
 	
 	// game loop
@@ -154,13 +165,15 @@ func main() {
 		}
 	}()
 	
+	// goroutine game-loop 
 	go func() {	
 		for ;; {
+			clearConsole()
 			displayUI(score, questionScore, code, codeRevaled, languages)
 			
 			// change
 			codeRevaled++
-			if questionScore-25 >=0 { questionScore-=25 }
+			if questionScore-25 >0 { questionScore-=25 }
 			delay(1500)
 			
 			// check for input
@@ -172,6 +185,9 @@ func main() {
 						score += uint16(questionScore)
 						questionScore = 250
 						codeRevaled = 0
+						code = file.GetContent("typescript")
+						languages = getLanguages(currentLang)
+						langIndex = getIndex(languages, currentLang) 
 					}
 				default:
 					// nothing (this should never activate, because int will be always 0 I guess)
