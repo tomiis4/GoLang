@@ -55,6 +55,18 @@ func getIndex(arr []string, elem string) int {
 	return -1
 }
 
+func removeItem(arr []string, index int) []string {
+	newArr := []string{}
+	
+	for i, value := range arr {
+		if i != index {
+			newArr = append(newArr, value)
+		}
+	}
+	
+	return newArr
+}
+
 func getLine(strArr []string) string {
 	//FIXME need fix tho
 	letterLen := len(strings.Split(strings.Join(strArr, " "), "")) *2+3
@@ -80,6 +92,12 @@ func displayCode(codeBlock []string, level uint8) {
 			fmt.Println(i, replaceStr(elem, "*"))
 		}
 	}
+}
+
+func getLang() string {
+	languages := [18]string{"Java", "C", "Python", "TypeScript", "C++", "C#", "P*P", "JavaScript", "SQL", "Ruby", "Matlab", "Swift", "Go", "COBOL", "Fortran", "Rust", "Haskell", "Bash"}
+	
+	return languages[randInt(len(languages))]
 }
 
 func getLanguages(current string) []string {
@@ -137,15 +155,27 @@ func clearConsole() {
 	cmd.Run()
 }
 
+func getLangName(lang string) string {
+   switch lang {
+      case "C++":
+            return "c%2B%2B"
+      case "C#":
+            return "c%23"
+      case "P*P":
+            return "php"
+      default:
+         return strings.ToLower(lang)
+   }
+}
+
 func main() {
 	// lang
-	currentLang := "TypeScript"
-	// currentLang := "C"
+	currentLang := getLang()
 	languages := getLanguages(currentLang)
 	langIndex := getIndex(languages, currentLang) 
+	
 	//code
-	code := file.GetContent("typescript")
-	// code := []string{"#include <stdio.h>", "int main(", "  printf(Helloworld);", "  return 0;"} 
+	code := file.GetContent(getLangName(currentLang))
 	codeRevaled := uint8(0)
 	// score
 	score := uint16(0)
@@ -185,12 +215,19 @@ func main() {
 						score += uint16(questionScore)
 						questionScore = 250
 						codeRevaled = 0
-						code = file.GetContent("typescript")
+						
+						// new lang.
+						currentLang = getLang()
+						code = file.GetContent(getLangName(currentLang))
 						languages = getLanguages(currentLang)
 						langIndex = getIndex(languages, currentLang) 
+					} else if numberInput != langIndex+1 && numberInput != 0 {
+						// remove lang as option
+						languages = removeItem(languages, numberInput-1)
+						langIndex -= 1
 					}
 				default:
-					// nothing (this should never activate, because int will be always 0 I guess)
+					// this should never activate, because int will be always 0 I guess
 			}
 		}
 	}()
