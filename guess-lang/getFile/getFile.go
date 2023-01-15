@@ -40,8 +40,64 @@ func randInt(max int) int {
 	 return randomNum
 }
 
+func getLang(lang string) string {
+    switch lang {
+        case "C++":
+            return "c%2B%2B"
+        case "C#":
+            return "c%23"
+        case "P*P":
+            return "php"
+        default:
+            return strings.ToLower(lang)
+    }
+}
+
+func getExtension(lang string) string {
+    switch lang {
+        case "Java":
+            return "java"
+        case "C":
+            return "c"
+        case "Python":
+            return "py"
+        case "TypeScript":
+            return "ts"
+        case "C++":
+            return "cpp"
+        case "C#":
+            return "cs"
+        case "P*P":
+            return "php"
+        case "JavaScript":
+            return "js"
+        case "SQL":
+            return "sql"
+        case "Ruby":
+            return "rb"
+        case "Matlab":
+            return "mlx"
+        case "Swift":
+            return "swift"
+        case "Go":
+            return "go"
+        case "COBOL":
+            return "cbl"
+        case "Fortran":
+            return "f90"
+        case "Rust":
+            return "rs"
+        case "Haskell":
+            return "hs"
+        case "Bash":
+            return "sh"
+        default: return ""
+    }
+}
+
 func getRepoUrl(lang string) [2]string {
-    link := "https://api.github.com/search/repositories?q=language:"+ lang +"&sort=stars"
+    langName := getLang(lang)
+    link := "https://api.github.com/search/repositories?q=language:"+ langName +"&sort=stars"
     
     // send req.
     resp, err := http.Get(link)
@@ -66,7 +122,8 @@ func getRepoUrl(lang string) [2]string {
     return result
 }
 
-func getFile(url string, branch string) string {
+func getFile(url string, branch string, lang string) string {
+    extension := getExtension(lang)
     nameUrl := strings.Replace(url, "https://github.com/", "", 1)
     repoUrl := "https://api.github.com/repos/" + nameUrl + "/git/trees/" + branch + "?recursive=1"
     
@@ -85,7 +142,7 @@ func getFile(url string, branch string) string {
     // get files which have extension "ts"
     selectedFiles := []string{}
     for _, value := range files.Items {
-        if strings.HasSuffix(value.PathName, "ts") {
+        if strings.HasSuffix(value.PathName, extension) {
             selectedFiles = append(selectedFiles, value.PathName)
         }
     }
@@ -142,14 +199,14 @@ func GetContent(lang string) []string {
     
     repoUrl := repo[0]
     repoBranch := repo[1]
-    fileName := getFile(repoUrl, repoBranch)
+    fileName := getFile(repoUrl, repoBranch, lang)
     
     contentBase64 := getFileContent(repoUrl, fileName)
     result := parseFile(contentBase64)
     
-    // if len(result) < 13 {
-    //     return GetContent(lang)
-    // }
+    if len(result) < 13 {
+        return GetContent(lang)
+    }
     
     return result
 }
