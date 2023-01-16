@@ -1,136 +1,212 @@
 # Go Cheatsheet
 
-## Helo world
+## Hello world
 ```go
+// name file package
 package main
 
+// import input/output package
 import "fmt"
 
+// main function where will all code execute
 func main() {
 	fmt.Println("Hello, world")
 }
 ```
 
-## Import
+## Importing packages
 ```go
-// input/output
-import "fmt"
+// import one package
+import "package"
+
+// import multiple packages
+import (
+	"package1"
+	"package2"
+)
+
+// import as X
+import pcg "package"
 ```
 
-## Variables 
+## Variables
 ```go
-var boolean bool = true;
-var number int = -5 // int8, int16, int32, int64
-var number uint = 5 // uint8, uint16, uint32, uint64
-var float float32 = 3.14 // float32, float64
-var stringName string = "Hi"
+// DYNAMIC
 
-variable := "any type"
-const pi float32 = 3.14
+// automatic type
+foo := "String"
+slice := []<type>{}
 
-array := [2]int{1,2}
-var array = [...]int{1,2,3,4}
+// own type
+var <name> <type> = <value>
+var slice = []<type>{}
+
+// FIXED
+const var <type> = <value>
+
+
+/*
+Type: 
+	bool               = true, false
+	int8, 16, 32, 64   = number in range of x bits, can be negative
+	uint8, 16, 32, 64  = number in range of x bits, can't be negative
+	float32, 64        = decimal numbers
+*/
 ```
 
-## Function
+### Objects
 ```go
-// input/output
-func main(arg1: string) int {
-	return 4
-}
-```
-
-## If/else
-```go
-if something {
-	// do something
-} else if something2 {
-	// do something2
-} else {
-	// else
-}
-```
-
-## Switch/case
-```go
-switch x {
-	case 1,2: // if 1 or 2
-		// something
-	case 3:
-		// something
-	default:
-		// else
-}
-```
-
-## Loops
-## For i
-```go
-for i:=0; i<5; i++ {
-	// someting
-}
-```
-## For in
-```go
-for index, value := range array {}
-```
-
-## Type 
-```go
-type Person struct {
-	name string
-	age int
-	job string
-	salary int
+type Object struct {
+	x <type>
+	y <type>
 }
 
-func main() {
-	var person  Person
+func function() {
+	var obj Object
 	
-	person.name = "name"
+	obj.x = <value>
+}
+```
+
+## Functions
+```go
+func name() {
+	//...
+}
+
+// return & argument
+func name(arg <type>) <type> {
+	//...
+	return arg
+}
+```
+
+## Check
+### If/else
+```go
+if statement {
+	//...
+} else if statement2{
+	//...
+} else {
 	//...
 }
 ```
 
-## Object 
+### Switch/case
 ```go
-var a = map[string]string{"key1": "value1"}
-```
-
-## Read file 
-```go
-import (
-	"fmt" 
-	"io/ioutil"
-)
-
-func main() {
-	content, err := ioutil.ReadFile("file.txt")
-	
-	if err != nil {
-		fmt.Println(err)
-	}
-	
-	fmt.Println(content)
+switch statement {
+	case x:
+		//...
+	case y:
+		//...
+	default:
+		//...
 }
 ```
 
-## Regex 
+## Loop
+### For-I
+```go
+for i:=0; i < 5; i++ {
+	//...
+}
+```
+
+### For-In
+```go
+for index, value := range arr {
+	//...
+}
+```
+
+### While true
+```go
+for ;; {
+	if statement {
+		break
+	}
+}
+```
+
+## Functions
+### Convert number type
+```go
+x := uint8(2)
+y := float32(3.1415926535)
+```
+
+### Length
+```go
+// array
+arr := []uint8{1,2,3,4}
+arrayLength := len(arr) // 4
+
+// string
+str := "hello"
+strLength := len(str) // 5
+```
+
+## Packages
+### io/ioutil
+#### Read file content
+```go
+import "io/ioutil"
+
+func main() {
+	// read file and save it to variable data
+	data, err := ioutil.ReadFile("./file")
+	
+	// check for errors
+	if err != nil { fmt.Println(err) }
+}
+```
+
+### regexp
+#### Split string using regex
 ```go
 import "regexp"
 
-// split using regex
-var pattern string = `\r?\n`
-regexObj := regexp.MustCompile(pattern)
-data := regexObj.Split(str, -1)
+func main() {
+	// regex pattern for end of the line
+	pattern := `\r?\n` 
+	regexCompiled := regexp.MustCompile(pattern)
+	
+	// split and save it to variable data
+	data := regexCompiled.Split("string", -1) // arg1 = string, arg2 = how many time do action 
+}
 ```
 
-## Time
-### Delay
+### time
+#### Delay
 ```go
 import "time"
 
+// ms
 func delay(ms time.Duration) {
-	time.Sleep(ms * time.Millisecond)
+	time.Sleep(ms * time.Milisecond)
+}
+
+// second
+func delay(s time.Duration) {
+	time.Sleep(s * time.Second)
+}
+```
+
+### math/rand
+#### Random number
+```go
+import "time"
+import "math/rand"
+
+func randomInt(maxNumber int) int {
+	// give random new time because it will not be always random
+	newTime:= rand.NewSource(time.Dow().UnixNano())
+	resetRandom := rand.New(newTime)
+	
+	// get random number
+	randomNumber := resetRandom.Intn(maxNumber)
+	
+	return randomNumber
 }
 ```
