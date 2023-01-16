@@ -68,10 +68,9 @@ func removeItem(arr []string, index int) []string {
 }
 
 func getLine(strArr []string) string {
-	//FIXME need fix tho
+	//FIXME correect length line
 	letterLen := len(strings.Split(strings.Join(strArr, " "), "")) *2+3
 	line := []string{}
-	
 	
 	for i:=0; i < letterLen; i++ {
 		line = append(line, "-")
@@ -80,12 +79,12 @@ func getLine(strArr []string) string {
 	return strings.Join(line, "")
 }
 
-func displayCode(codeBlock []string, level uint8) {
+func displayCode(codeBlock []string, linesVisible uint8) {
 	for i:=uint8(0); i < uint8(len(codeBlock)); i++ {
 		elem := codeBlock[i]
 		
 		// display visible lines
-		if i < level {
+		if i < linesVisible {
 			fmt.Println(i, elem)
 		} else {
 			// display hidden lines
