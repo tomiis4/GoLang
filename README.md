@@ -1,4 +1,4 @@
-# Go Cheatsheet
+# Go Cheatsheet <img width="50em" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/Go_gopher_favicon.svg/2048px-Go_gopher_favicon.svg.png">
 
 <table>
 <td>
