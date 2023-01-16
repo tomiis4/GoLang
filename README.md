@@ -1,5 +1,39 @@
 # Go Cheatsheet
 
+<table>
+<td>
+
+* [Hello world](#hello-world)
+* [Importing packages](#importing-packages)
+* [Variables & Types](#variables)
+	* [objects](#objects)
+* [Functions](#functions)
+* [Check](#check)
+	* [if/else](#ifelse)
+	* [switch/case](#switchcase)
+</td>
+<td>
+
+* [Loop](#loop)
+	* [for-i](#for-i)
+	* [for-in](#for-in)
+	* [while true](#while-true)
+* [Build-in Functions](#build-in-functions)
+	* [convert number](#convert-number-type)
+	* [length](#length)
+
+</td>
+<td>
+
+* [Packages](#packages)
+	* [io/ioutil](#ioioutil)
+	* [regexp](#regexp)
+	* [time](#time)
+	* [math/rand](#mathrand)
+* [Project ideas](#project-ideas)
+</td>
+</table>
+
 ## Hello world
 ```go
 // name file package
@@ -129,7 +163,7 @@ for ;; {
 }
 ```
 
-## Functions
+## Build-In Functions
 ### Convert number type
 ```go
 x := uint8(2)
@@ -210,3 +244,8 @@ func randomInt(maxNumber int) int {
 	return randomNumber
 }
 ```
+
+## Project ideas
+* [2048 game](https://github.com/tomiis4/GoLang/tree/main/2048)
+* [language guessing game](https://github.com/tomiis4/GoLang/tree/main/guess-lang)
+* [calculator](#)
