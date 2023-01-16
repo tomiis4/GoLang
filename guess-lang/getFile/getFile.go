@@ -1,14 +1,14 @@
 package getFile 
 
 import (
-	"encoding/base64"
-	"encoding/json"
-	"fmt"
-	"math/rand"
-	"net/http"
-	"regexp"
-	"strings"
-	"time"
+ 	 "encoding/base64"
+ 	 "encoding/json"
+ 	 "fmt"
+	 "math/rand"
+	 "net/http"
+    "regexp"
+	 "strings"
+	 "time"
 )
 
 type Repos struct {
@@ -137,7 +137,9 @@ func getFile(url string, branch string, lang string) string {
     json.NewDecoder(resp.Body).Decode(&files)
     
     // make sure there is at least 1 repo
-    if len(files.Items) == 0 { fmt.Println("No items were found") }
+    if len(files.Items) == 0 { 
+        fmt.Println("No repository was found or you rand out of API req. (60/hr)") 
+    }
     
     // get files which have extension "ts"
     selectedFiles := []string{}
@@ -147,7 +149,9 @@ func getFile(url string, branch string, lang string) string {
         }
     }
     
-    if len(selectedFiles) <=0 { fmt.Println("There is not any file") }
+    if len(selectedFiles) <=0 {
+        fmt.Println("No file was found in repository or you rand out of API req. (60/hr)") 
+    }
     
     return selectedFiles[randInt(len(selectedFiles))]
 }
@@ -161,7 +165,7 @@ func getFileContent(nameUrl string, fileName string) string {
     if err != nil { fmt.Println(err) }
     defer resp.Body.Close()
     
-    // get repos from req. and convert it
+    // get repos from req. and convert it to JSON
     var randomFile File
     json.NewDecoder(resp.Body).Decode(&randomFile)
     
@@ -169,7 +173,6 @@ func getFileContent(nameUrl string, fileName string) string {
 }
 
 func parseFile(content string) []string {
-    // convert base64 to string
     data, _ := base64.URLEncoding.DecodeString(content)
     
     // split by lines
