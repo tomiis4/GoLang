@@ -26,6 +26,7 @@
 <td>
 
 * [Packages](#packages)
+	* [fmt](#fmt)
 	* [io/ioutil](#ioioutil)
 	* [regexp](#regexp)
 	* [time](#time)
@@ -81,10 +82,11 @@ const var <type> = <value>
 
 /*
 Type: 
-	bool               = true, false
-	int8, 16, 32, 64   = number in range of x bits, can be negative
-	uint8, 16, 32, 64  = number in range of x bits, can't be negative
-	float32, 64        = decimal numbers
+	bool              = %t = true, false
+	int8, 16, 32, 64  = %d = number in range of x bits, can be negative
+	uint8, 16, 32, 64 = %d = number in range of x bits, can't be negative
+	float32, 64       = %g = decimal numbers
+	string            = %s = any string
 */
 ```
 
@@ -182,6 +184,26 @@ strLength := len(str) // 5
 ```
 
 ## Packages
+### fmt
+#### Print content
+```go
+import "fmt"
+
+// print on new line, variables using next argument
+fmt.Println(...)
+
+// print on same line, variables using format
+fmt.Printf(...)
+```
+
+#### Get user input
+```go
+import "fmt"
+
+var variable <type>
+fmt.Scanf("%<format>", &variable)
+```
+
 ### io/ioutil
 #### Read file content
 ```go
@@ -217,12 +239,12 @@ func main() {
 import "time"
 
 // ms
-func delay(ms time.Duration) {
+func delayMs(ms time.Duration) {
 	time.Sleep(ms * time.Milisecond)
 }
 
 // second
-func delay(s time.Duration) {
+func delayS(s time.Duration) {
 	time.Sleep(s * time.Second)
 }
 ```
@@ -248,4 +270,4 @@ func randomInt(maxNumber int) int {
 ## Project ideas
 * [2048 game](https://github.com/tomiis4/GoLang/tree/main/2048)
 * [language guessing game](https://github.com/tomiis4/GoLang/tree/main/guess-lang)
-* [calculator](#)
+* [calculator](https://github.com/tomiis4/GoLang/tree/main/calculator)
