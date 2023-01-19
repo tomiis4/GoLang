@@ -1,19 +1,21 @@
-# Go Cheatsheet <img width="50em" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/Go_gopher_favicon.svg/2048px-Go_gopher_favicon.svg.png">
+# <a href="https://go.dev">Go</a> Cheatsheet <img width="50em" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/Go_gopher_favicon.svg/2048px-Go_gopher_favicon.svg.png">
 
 <table>
 <td>
 
+* [File](#file)
 * [Hello world](#hello-world)
 * [Importing packages](#importing-packages)
 * [Variables & Types](#variables)
 	* [objects](#objects)
 * [Functions](#functions)
-* [Check](#check)
-	* [if/else](#ifelse)
-	* [switch/case](#switchcase)
+
 </td>
 <td>
 
+* [Logic Statements](#logic-statements)
+	* [if/else](#ifelse)
+	* [switch/case](#switchcase)
 * [Loop](#loop)
 	* [for-i](#for-i)
 	* [for-in](#for-in)
@@ -34,6 +36,12 @@
 * [Project ideas](#project-ideas)
 </td>
 </table>
+
+## File
+### Run file
+`go run file.go`
+### Generate exe file
+`go build file.go`
 
 ## Hello world
 ```go
@@ -117,7 +125,7 @@ func name(arg <type>) <type> {
 }
 ```
 
-## Check
+## Logic Statements
 ### If/else
 ```go
 if statement {
