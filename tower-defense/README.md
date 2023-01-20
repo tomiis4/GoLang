@@ -4,8 +4,10 @@ Simple command-line tower defense using GoLang
 
 ### TODO
 - [ ] Towers
+  - [ ] Shoot
+  - [ ] Upgrade
+  - [ ] Buy
 - [ ] Generate path
-- [ ] Money
-- [ ] Upgrade?
+- [ ] Money system
 - [ ] Enemy
-  - [ ] walking
+  - [x] walking
