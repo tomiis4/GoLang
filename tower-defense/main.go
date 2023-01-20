@@ -13,10 +13,12 @@ type Enemy struct {
 	Steps int
 }
 
-var PATH_POSITION = [...][2]int{ {0,0}, {2,0}, {2,2}, {4,2}, {6,2}, {6,4}, {6,6}, {8,6}, {10,6} }
+var MAX_DISTANCE int = 7
+
+var PATH_POSITION = [...][2]int{ {0,0}, {2,0}, {2,2}, {4,2}, {6,2}, {6,4}, {6,6}, {8,6}, {10,6}, {12,6}, {12,8}, {12,10}, {14,10}, {14,12}, {16,12}, {18,12} }
 
 var PLACED_TOWERS = []int{ 2 }
-var TOWERS_POSITION = [...][2]int{ {0,4}, {10,2}, {4,8} }
+var TOWERS_POSITION = [...][2]int{ {2,6}, {10,2}, {8,10}, {16, 16} }
 
 var ENEMY_INFO = []Enemy{}
 
@@ -24,6 +26,7 @@ var TOWER = [...]string{"T","T","M", "M"}
 var ENEMY = [...]string{"O","O","I", "I"}
 
 var PATH = [...]string{"*","*","*", "*"}
+var SPECIAL_PATH = [...]string{"+","+","+", "+"}
 // var PATH = [...]string{"_","|","|", "_"}
 
 
@@ -92,11 +95,16 @@ func appendPath(board []string) []string {
 	newBoard := board
 	lineLength:= int( math.Sqrt( float64(len(board)) ) )
 	
-	for _, xy := range PATH_POSITION {
+	for pathIndex, xy := range PATH_POSITION {
 		x := xy[0]
 		y := xy[1]
+		pathType :=	PATH
 		
-		for i, elem := range PATH {
+		if pathIndex == len(PATH_POSITION)-1 || pathIndex == 0 {
+			pathType = SPECIAL_PATH 
+		}
+		
+		for i, elem := range pathType {
 			newBoard = appendBlock(x,y, i, lineLength, elem, board)
 		}
 	}
@@ -183,13 +191,43 @@ func moveEnemy() {
 	ENEMY_INFO = newEnemy
 }
 
+func getDistance(posTower, posEnemy [2]int) int {
+	tX := posTower[0]
+	tY := posTower[1]
+	
+	eX := posEnemy[0]
+	eY := posEnemy[1]
+	
+	// round distance formula ( d = sqrt (x2-x1)**2 + (y2-y1)**2 )
+	return int (math.Sqrt(float64((tX-eX)*(tX-eX) + (tY-eY)*(tY-eY))))
+}
+
+func shootBullet(towerPosition, enemyPosition [2]int) {
+	//TODO
+}
+
+func shootTower() {
+	for _, towerIndex := range PLACED_TOWERS{
+		tower := TOWERS_POSITION[towerIndex]
+		
+		for _, enemy := range ENEMY_INFO {
+			distance := getDistance(tower, enemy.Position)
+			
+			if distance <= MAX_DISTANCE {
+				fmt.Println("Enemy is on disntace on >10")
+			}
+			fmt.Println("ENEMY DISTANCE: ", distance, towerIndex)
+		}
+	}
+}
+
 func main() {
 	// testing only
 	addEnemy()
 	
 	// game loop
 	for {
-		board := generateBoard(15)
+		board := generateBoard(20)
 		board = appendPath(board)
 		board = appendEmptyTowers(board)
 		board = appendTowers(board)
@@ -197,6 +235,8 @@ func main() {
 		moveEnemy()
 		
 		board = appendEnemy(board)
+		
+		shootTower()
 		
 		printBoard(board)
 		delay(1250)
