@@ -12,7 +12,7 @@ Simple command-line tower defense using GoLang
   - [ ] Buy
 - [ ] Generate path
 - [ ] Money system
-- [x] Enemy
+- [ ] Enemy
   - [ ] raid
     - [ ] timer
   - [x] walking
