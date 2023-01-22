@@ -25,7 +25,7 @@ var PATH_POSITION = [...][2]int{{0, 0}, {2, 0}, {2, 2}, {4, 2}, {6, 2}, {6, 4}, 
 var TOWERS_POSITION = [...][2]int{{2, 6}, {10, 2}, {8, 10}, {16, 16}}
 
 
-var PLACED_TOWERS = []int{0,1,2,3}
+var PLACED_TOWERS = []int{}
 var ENEMY_INFO = []Enemy{}
 
 var TOWER = [...]string{"T", "T", "M", "M"}
@@ -40,6 +40,9 @@ var status string = "Playing"
 var score int = 0
 var towerHealt int = 250
 var enemyDamage int = 25
+var money int = 200
+
+var isRaid bool = false
 
 func getIndex(x, y, lineLength int) int {
 	return y*lineLength + x
@@ -51,6 +54,16 @@ func getEven(n int) int {
 	} else {
 		return n
 	}
+}
+
+func contain(arr []int, elem int) bool {
+	for _, elemArr := range arr {
+		if elemArr == elem {
+			return true
+		}
+	}
+	
+	return false
 }
 
 func delay(ms time.Duration) {
@@ -78,6 +91,7 @@ func printBoard(board []string) {
 	fmt.Println("Game status: ", status)
 	fmt.Println("Score: ", score)
 	fmt.Println("Main tower health: ", towerHealt)
+	fmt.Println("Money: ", money)
 	fmt.Printf("\n")
 	for i, elem := range board {
 		fmt.Printf(" %s", elem)
@@ -177,7 +191,7 @@ func appendEnemy(board []string) []string {
 
 func addEnemy() {
 	var newEnemy Enemy
-	newEnemy.Health = 10000
+	newEnemy.Health = 75
 	newEnemy.Steps = 0
 	newEnemy.Position = PATH_POSITION[newEnemy.Steps]
 	
@@ -305,6 +319,7 @@ func killEnemy(enemy Enemy, index int) {
 				newEnemy = append(newEnemy, tempEnemy)
 			} else {
 				score += 20
+				money += 50
 				towerHealt += 20
 			}
 		}
@@ -338,34 +353,72 @@ func shootTower() []Shoot {
 	return stages
 }
 
-func main() {
-	// testing only
-	addEnemy()
-	
-	// game loop
-	for {
-		board := generateBoard(20)
-		board = appendPath(board)
-		board = appendEmptyTowers(board)
-		board = appendTowers(board)
-		
-		moveEnemy()
-		
-		board = appendEnemy(board)
-		
-		// shoot bullet
-		if len(shootTower()) != 0 {
-			for _, shoot := range shootTower() {
-				board = shootBullet( shoot.Tower, shoot.Enemy, board )
-			}
-		} 
-		
-		// game status
-		if towerHealt <= 0 {
-			status = "Lost"
-		}
-		
-		printBoard(board)
-		delay(1250)
+func raid() {
+	if isRaid {
+		addEnemy()
 	}
+}
+
+func main() {
+	inputChannel := make(chan int)
+	
+	// intput
+	go func() {
+		for ;; {
+			input := -1
+			fmt.Scanf("%d", &input)
+			
+			inputChannel <- input
+		}
+	}()
+	
+	go func() {
+		// game loop
+		for ;; {
+			board := generateBoard(20)
+			board = appendPath(board)
+			board = appendEmptyTowers(board)
+			board = appendTowers(board)
+			
+			moveEnemy()
+			raid()
+			
+			board = appendEnemy(board)
+			
+			// shoot bullet
+			if len(shootTower()) != 0 {
+				for _, shoot := range shootTower() {
+					board = shootBullet( shoot.Tower, shoot.Enemy, board )
+				}
+			} 
+			
+			// game status
+			if	towerHealt <= 0 {
+				status = "Lost"
+			}
+			
+			// raid
+			if len(ENEMY_INFO) <= 6 {
+				isRaid = true 
+			} else {
+				isRaid = false
+			}
+			
+			printBoard(board)
+			delay(1250)
+			
+			// check for input
+			select {
+				case input := <- inputChannel:
+					if input != -1 && !contain(PLACED_TOWERS, input) && money >= 150 {
+						money -= 150
+						PLACED_TOWERS = append(PLACED_TOWERS, input)
+					}
+				default: // this should never happend
+			}
+		}
+	}()
+	
+	// check for end?
+	select {}
 }
