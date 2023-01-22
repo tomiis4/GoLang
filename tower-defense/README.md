@@ -9,11 +9,10 @@ Simple command-line tower defense using GoLang
 - [ ] Towers
   - [x] Shoot
   - [ ] Upgrade
-  - [ ] Buy
+  - [x] Buy
 - [ ] Generate path
-- [ ] Money system
+- [x] Money system
 - [ ] Enemy
-  - [ ] raid
-    - [ ] timer
+  - [x] raid
   - [x] walking
   - [x] die
