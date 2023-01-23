@@ -265,7 +265,7 @@ import "math/rand"
 
 func randomInt(maxNumber int) int {
 	// give random new time because it will not be always random
-	newTime:= rand.NewSource(time.Dow().UnixNano())
+	newTime:= rand.NewSource(time.Now().UnixNano())
 	resetRandom := rand.New(newTime)
 	
 	// get random number
