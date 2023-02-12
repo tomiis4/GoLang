@@ -71,27 +71,48 @@ func get_separate_symbol(arr []int, index int) string {
 
 	return SEPARATE
 }
+
+
+// x = previsou number
+// y = current number
+// current = current index of line you are printing
+
 /*
 
-How this will work?
-I don't know too..
+TODO
 
-get range of price and store it in array
-	[0] MAX = MAX + MIN
 
-	get DIFFerence between ( MAX/MIN )
-	fill range arr with DIFF * ( MAX - MIN )? prob.
-		if is something really close to it, change it with price value
-		else add it to array
 
-	for each RANGE ARRAY
-		if elem is in VALUE print ( index in array * spaces )
-		else print ELEM //TODO
+CURRENT MUST BE <= Y    >= X
 
-	[N] MIN = MIN - MIN
+moving from DOWN to UP (y > x)
+	current == y write turing up right
+	current == x write up/down
+	else write up/down
+
+moving from UP to DOWN (y < x)
+	current == y write turn bottom right
+	current == x write up/down
+	else write up/down
 */
 
+func get_symbol(x,y, current int) string {
+	// move up
+	isUp := y > x
+	canWriteUp := current <= y && current >= x && isUp
 
+	// move down
+	isDown:= y < x
+	canWriteDown := current >= y && current <= x && isDown
+
+	if canWriteUp  {
+		return LINE_COLUMN
+	}
+
+	return ""
+}
+
+// functions return string with spaces
 func get_space(x int) string {
 	space := ""
 	for i:=0; i < x; i++ {
@@ -142,8 +163,16 @@ func cprint(sorted []int, main []int) {
 		var formatedItems string
 		if indexOf(main, value) != -1 {
 			// +1 for better look
-			spaces := get_space(indexOf(main,value)+1)
+			valueIndex := indexOf(main,value)
+			spaces := get_space(valueIndex+1)
+
 			formatedItems = fmt.Sprintf("%s%s", spaces, POINT)
+
+			//FIXME prob. save char. in varaible and then give it to resultRow
+			if len(main) > valueIndex+1 {
+				symbol := get_symbol( main[valueIndex], main[valueIndex+1], index )
+				fmt.Printf("X %s X", symbol)
+			}
 		}
 
 		// connect print row
