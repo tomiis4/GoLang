@@ -58,7 +58,7 @@ func indexOf(arr []int, num int) int {
 
 	return -1
 }
-
+	
 // get spearating symbol based on index (for better look)
 func get_separate_symbol(arr []int, index int) string {
 	if index == 0 {
@@ -105,17 +105,26 @@ func get_symbol(x,y, current int) string {
 	isDown:= y < x
 	canWriteDown := current >= y && current <= x && isDown
 
-	if canWriteUp  {
-		return LINE_COLUMN
+	// if current is at point
+	if current == x || current == y {
+		return POINT
 	}
+
+	if canWriteDown{
+		return TURN_LEFT_DOWN
+	}
+	if canWriteUp {
+		return TURN_RIGHT_DOWN
+	}
+
 
 	return ""
 }
 
 // functions return string with spaces
-func get_space(x int) string {
+func get_space(n int) string {
 	space := ""
-	for i:=0; i < x; i++ {
+	for i:=0; i < n; i++ {
 		space = space + " "
 	}
 
@@ -146,8 +155,9 @@ func get_range(min, max int) []int {
 	return arr
 }
 
-// print chart
-func cprint(sorted []int, main []int) {
+func bottom_status(sorted []int) []string {
+	full_chart := []string{} 
+
 	higestValue := sorted[len(sorted)-1]
 	lowestValue := sorted[0]
 	numberRange := get_range(lowestValue, higestValue)
@@ -155,38 +165,51 @@ func cprint(sorted []int, main []int) {
 	for index, value := range numberRange {
 		var resultRow string
 
+
 		// get spaces and format number + |
 		spaces := generate_space(get_max_len(sorted), value)
 		formatedRange := fmt.Sprintf("%s%d %s", spaces, value, get_separate_symbol(numberRange, index))
 
-		// elements
+
 		var formatedItems string
-		if indexOf(main, value) != -1 {
-			// +1 for better look
-			valueIndex := indexOf(main,value)
-			spaces := get_space(valueIndex+1)
 
-			formatedItems = fmt.Sprintf("%s%s", spaces, POINT)
 
-			//FIXME prob. save char. in varaible and then give it to resultRow
-			if len(main) > valueIndex+1 {
-				symbol := get_symbol( main[valueIndex], main[valueIndex+1], index )
-				fmt.Printf("X %s X", symbol)
-			}
-		}
-
-		// connect print row
+		// connect and add to full_chart
 		resultRow = fmt.Sprintf("%s%s", formatedRange, formatedItems)
+		full_chart = append(full_chart, resultRow)
+	}
 
-		fmt.Println(resultRow)
+	return full_chart
+}
+
+// print chart
+func cprint(sorted []int, main []int) {
+	chart_numbers := bottom_status(sorted)
+
+	// get lowest number from range
+	numberRange := get_range(sorted[0], len(sorted)-1)
+	lowest_value := numberRange[len(numberRange)-1]
+
+	// add path + points
+	for index, elem := range main {
+		// TODO make index*2 or index+1 for better look
+		spaces := get_space(index)
+		line_index := len(chart_numbers)+lowest_value-elem-1
+
+		chart_numbers[line_index] = fmt.Sprintf("%s%s%s", chart_numbers[line_index], spaces, POINT)
+	}
+
+	// print array
+	for _, elem := range chart_numbers {
+		fmt.Println(elem)
 	}
 }
 
 func main() {
-	fmt.Println("Get stock price for BTC")
+	fmt.Printf("Get stock price for BTC\n\n")
 
 	// get currency and sort it
-	items := []int{ 3,7,9,15,8,11,4,14 }
+	items := []int{ 3,7,9,15,8,11,4,14,3 }
 	var currency []int
 	var sortedCurrency []int
 
