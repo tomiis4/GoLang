@@ -182,6 +182,9 @@ func bottom_status(sorted []int) []string {
 	return full_chart
 }
 
+// TODO make function for path creating
+//	FIXME OFFTOPICS install "languages" for nvim
+
 // print chart
 func cprint(sorted []int, main []int) {
 	chart_numbers := bottom_status(sorted)
@@ -192,10 +195,18 @@ func cprint(sorted []int, main []int) {
 
 	// add path + points
 	for index, elem := range main {
-		// TODO make index*2 or index+1 for better look
-		spaces := get_space(index)
+		// display points
+		spaces := get_space(index+1)
 		line_index := len(chart_numbers)+lowest_value-elem-1
 
+		// FIXME
+		// if index+1 exists
+		// if len(main) > index+1 {
+			// symbol := get_symbol(elem, main[index+1], line_index)
+			// chart_numbers[line_index] = fmt.Sprintf("%s%s%s", chart_numbers[line_index], spaces, symbol)
+		// }
+
+		// this one work (add POINTs)
 		chart_numbers[line_index] = fmt.Sprintf("%s%s%s", chart_numbers[line_index], spaces, POINT)
 	}
 
