@@ -118,7 +118,7 @@ func get_symbol(x,y, current int) string {
 	}
 
 
-	return ""
+	return " "
 }
 
 // functions return string with spaces
@@ -185,30 +185,56 @@ func bottom_status(sorted []int) []string {
 // TODO make function for path creating
 //	FIXME OFFTOPICS install "languages" for nvim
 
+// Prob get one array with points and second with path, then connect which will add points to path :)
 // print chart
 func cprint(sorted []int, main []int) {
 	chart_numbers := bottom_status(sorted)
 
 	// get lowest number from range
-	numberRange := get_range(sorted[0], len(sorted)-1)
-	lowest_value := numberRange[len(numberRange)-1]
+	// numberRange := get_range(sorted[0], len(sorted)-1)
+	// lowest_value := numberRange[len(numberRange)-1]
 
-	// add path + points
-	for index, elem := range main {
-		// display points
-		spaces := get_space(index+1)
-		line_index := len(chart_numbers)+lowest_value-elem-1
+	// // add points
+	// for index, elem := range main {
+	// 	// display points
+	// 	spaces := get_space(index+1)
+	// 	line_index := len(chart_numbers)+lowest_value-elem-1
 
-		// FIXME
-		// if index+1 exists
-		// if len(main) > index+1 {
-			// symbol := get_symbol(elem, main[index+1], line_index)
-			// chart_numbers[line_index] = fmt.Sprintf("%s%s%s", chart_numbers[line_index], spaces, symbol)
-		// }
 
-		// this one work (add POINTs)
-		chart_numbers[line_index] = fmt.Sprintf("%s%s%s", chart_numbers[line_index], spaces, POINT)
+	// 	// this one work (add POINTs)
+	// 	chart_numbers[line_index] = fmt.Sprintf("%s%s%s", chart_numbers[line_index], spaces, POINT)
+	// }
+
+	// loop column by column
+	for x:=0; x < len(main)-1; x++ {
+		for y:=0; y < len(chart_numbers); y++ {
+			// letter := main[x]
+			// future_letter := main[x+1]
+			// spaces := get_space(x)
+
+			// symbol := get_symbol(letter, future_letter, y)
+
+			// fmt.Println(spaces, letter, future_letter)
+			// chart_numbers[x] = fmt.Sprintf("%s%s%s", chart_numbers[x], "", symbol)
+			fmt.Println(main[x])
+			chart_numbers[y] = fmt.Sprintf("%s#", chart_numbers[y])
+		}
 	}
+
+	// add path
+	// for each letter it it loops column in chart_numbers
+			// if column+1 is in main
+			// letter := main[column]
+			// future_letter := main[column+1]
+			// fmt.Println(letter, future_letter,i)
+			// fmt.Println(column,i)
+			// if index+1 exists
+			// if len(main) > index+1 {
+				// spaces := get_space(index+1)
+				// symbol := "#"
+				// symbol := get_symbol(elem, main[index+1], line_index)
+				// chart_numbers[index] = fmt.Sprintf("%s%s%s", chart_numbers[index], spaces, symbol)
+			// }
 
 	// print array
 	for _, elem := range chart_numbers {
