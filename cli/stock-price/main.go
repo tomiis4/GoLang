@@ -6,7 +6,6 @@ import (
 	"strconv"
 )
 
-
 const SEPARATE string = "Ôö╝"
 const SEPARATE_UP string = "ÔöČ"
 const SEPARATE_DOWN string = "Ôö┤"
@@ -58,7 +57,7 @@ func indexOf(arr []int, num int) int {
 
 	return -1
 }
-	
+
 // get spearating symbol based on index (for better look)
 func get_separate_symbol(arr []int, index int) string {
 	if index == 0 {
@@ -71,7 +70,6 @@ func get_separate_symbol(arr []int, index int) string {
 
 	return SEPARATE
 }
-
 
 // x = previsou number
 // y = current number
@@ -96,13 +94,13 @@ moving from UP to DOWN (y < x)
 	else write up/down
 */
 
-func get_symbol(x,y, current int) string {
+func get_symbol(x, y, current int) string {
 	// move up
 	isUp := y > x
 	canWriteUp := current <= y && current >= x && isUp
 
 	// move down
-	isDown:= y < x
+	isDown := y < x
 	canWriteDown := current >= y && current <= x && isDown
 
 	// if current is at point
@@ -110,13 +108,20 @@ func get_symbol(x,y, current int) string {
 		return POINT
 	}
 
-	if canWriteDown{
-		return TURN_LEFT_DOWN
+	if canWriteDown && current == y {
+		return TURN_RIGHT_DOWN
+	} 
+	
+	if canWriteUp && current == y {
+		return TURN_RIGHT_UP 
+	} 
+
+	if canWriteDown {
+		return LINE_COLUMN
 	}
 	if canWriteUp {
-		return TURN_RIGHT_DOWN
+		return LINE_COLUMN
 	}
-
 
 	return ""
 }
@@ -124,7 +129,7 @@ func get_symbol(x,y, current int) string {
 // functions return string with spaces
 func get_space(n int) string {
 	space := ""
-	for i:=0; i < n; i++ {
+	for i := 0; i < n; i++ {
 		space = space + " "
 	}
 
@@ -137,18 +142,17 @@ func generate_space(max_num, current int) string {
 	str := strconv.Itoa(current)
 
 	if len(str) < max_num {
-		space = get_space(max_num-len(str))
+		space = get_space(max_num - len(str))
 	}
 
 	return space
 }
 
-
 // return range from higest -> lowest
 func get_range(min, max int) []int {
 	arr := []int{}
 
-	for i:=max; i >= min; i-- {
+	for i := max; i >= min; i-- {
 		arr = append(arr, i)
 	}
 
@@ -156,7 +160,7 @@ func get_range(min, max int) []int {
 }
 
 func bottom_status(sorted []int) []string {
-	full_chart := []string{} 
+	full_chart := []string{}
 
 	higestValue := sorted[len(sorted)-1]
 	lowestValue := sorted[0]
@@ -165,14 +169,11 @@ func bottom_status(sorted []int) []string {
 	for index, value := range numberRange {
 		var resultRow string
 
-
 		// get spaces and format number + |
 		spaces := generate_space(get_max_len(sorted), value)
 		formatedRange := fmt.Sprintf("%s%d %s", spaces, value, get_separate_symbol(numberRange, index))
 
-
 		var formatedItems string
-
 
 		// connect and add to full_chart
 		resultRow = fmt.Sprintf("%s%s", formatedRange, formatedItems)
@@ -194,14 +195,13 @@ func cprint(sorted []int, main []int) {
 	numberRange := get_range(sorted[0], len(sorted)-1)
 	lowest_value := numberRange[len(numberRange)-1]
 
-
 	// loop column by column
-	for x:=0; x < len(main)-1; x++ {
-		for y:=0; y < len(chart_numbers); y++ {
+	for x := 0; x < len(main)-1; x++ {
+		for y := 0; y < len(chart_numbers); y++ {
 			letter := main[x]
 			future_letter := main[x+1]
 
-			line_index := len(chart_numbers)+lowest_value-y-1
+			line_index := len(chart_numbers) + lowest_value - y - 1
 			spaces := get_space(x)
 
 			symbol := get_symbol(letter, future_letter, line_index)
@@ -216,8 +216,6 @@ func cprint(sorted []int, main []int) {
 		}
 	}
 
-
-
 	// // add points
 	// for index, elem := range main {
 	// 	// display points
@@ -226,7 +224,6 @@ func cprint(sorted []int, main []int) {
 
 	// 	chart_numbers[line_index] = fmt.Sprintf("%s%s%s", chart_numbers[line_index], spaces, POINT)
 	// }
-
 
 	// print array
 	for _, elem := range chart_numbers {
@@ -238,13 +235,13 @@ func main() {
 	fmt.Printf("Get stock price for BTC\n\n")
 
 	// get currency and sort it
-	items := []int{ 3,7,9,15,8,11,4,14,3 }
+	items := []int{3, 7, 9, 15, 8, 11, 4, 14, 3}
 	var currency []int
 	var sortedCurrency []int
 
 	// duplicate
-   currency = append(currency, items...)
-   sortedCurrency = append(sortedCurrency, items...)
+	currency = append(currency, items...)
+	sortedCurrency = append(sortedCurrency, items...)
 
 	// sort currency
 	sort.Ints(sortedCurrency)
