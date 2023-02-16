@@ -279,6 +279,6 @@ func randomInt(maxNumber int) int {
 * [2048 game](https://github.com/tomiis4/GoLang/tree/main/2048)
 * [language guessing game](https://github.com/tomiis4/GoLang/tree/main/guess-lang)
 * [simple cli tower defense](https://github.com/tomiis4/GoLang/tree/main/tower-defense)
-* [stock price tracker](https://github.com/tomiis4/GoLang/tree/main/cli/stock-price)
+* [cli plot chart](https://github.com/tomiis4/GoLang/tree/main/cli/plot-chart)
 * [calculator](https://github.com/tomiis4/GoLang/tree/main/calculator)
 * [rock-paper-scissors](https://github.com/tomiis4/GoLang/tree/main/rps)

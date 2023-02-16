@@ -1,4 +1,4 @@
-# Stock Price Tracker
+# Plot chart
 
 ### Showcase
 `Input := { -2, 3, 7, 9, 15, 8, 11, 4, 14, 2 }`

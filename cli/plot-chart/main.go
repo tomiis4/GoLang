@@ -17,7 +17,6 @@ const TURN_RIGHT_DOWN string = "ÔĽ░"
 const LINE_COLUMN string = "Ôöé"
 const LINE_ROW string = "ÔöÇ"
 
-const POINT string = "┬Ą"
 
 func get_lowest_value(arr []int) int {
 	sort.Ints(arr)
@@ -91,26 +90,6 @@ func get_separate_symbol(main, range_arr []int, number, index int) string {
 // x = previsou number
 // y = current number
 // current = current index of line you are printing
-
-/*
-
-TODO
-
-
-
-CURRENT MUST BE <= Y    >= X
-
-moving from DOWN to UP (y > x)
-	current == y write turing up right
-	current == x write up/down
-	else write up/down
-
-moving from UP to DOWN (y < x)
-	current == y write turn bottom right
-	current == x write up/down
-	else write up/down
-*/
-
 func get_symbol(x, y, current int) string {
 	// move up
 	isUp := y > x
@@ -119,6 +98,11 @@ func get_symbol(x, y, current int) string {
 	// move down
 	isDown := y < x
 	canWriteDown := current >= y && current <= x && isDown
+
+	// if they are at same line
+	if x == y && current == x {
+		return LINE_ROW
+	}
 
 	// if current is at point
 	if current == x && isUp  {
@@ -198,14 +182,13 @@ func bottom_status(sorted, main []int) []string {
 		var formatedItems string
 
 		// connect and add to full_chart
-		resultRow = fmt.Sprintf("%s%s", formatedRange, formatedItems)
+		resultRow = fmt.Sprintf("   %s%s", formatedRange, formatedItems)
 		full_chart = append(full_chart, resultRow)
 	}
 
 	return full_chart
 }
 
-// Prob get one array with points and second with path, then connect which will add points to path :)
 // print chart
 func cprint(sorted []int, main []int) {
 	chart_numbers := bottom_status(sorted, main)
@@ -226,14 +209,7 @@ func cprint(sorted []int, main []int) {
 			var spaces string
 			if symbol == "" { spaces = " " } else { spaces = "" }
 
-			// last point
-			// if is_last_letter {
-			// 	fmt.Println("last letter:", future_letter)
-			// 	chart_numbers[y] = fmt.Sprintf("%s%s%s", chart_numbers[y], spaces, SEPARATE_DOWN)
-			// } else {
-				chart_numbers[y] = fmt.Sprintf("%s%s%s", chart_numbers[y], spaces, symbol)
-			// }
-
+			chart_numbers[y] = fmt.Sprintf("%s%s%s", chart_numbers[y], spaces, symbol)
 		}
 	}
 
@@ -247,7 +223,7 @@ func main() {
 	fmt.Printf("Get stock price for BTC\n\n")
 
 	// get currency and sort it
-	items := []int{ -2, 3, 7, 9, 15, 8, 11, 4, 14, 2}
+	items := []int{ -2, 3,3, 7, 9, 15, 8, 11, 4, 14, 2}
 	var currency []int
 	var sortedCurrency []int
 
