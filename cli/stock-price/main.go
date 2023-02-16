@@ -59,16 +59,33 @@ func indexOf(arr []int, num int) int {
 }
 
 // get spearating symbol based on index (for better look)
-func get_separate_symbol(arr []int, index int) string {
+func get_separate_symbol(main, range_arr []int, number, index int) string {
+	first_elem := main[0]
+	is_line_start := first_elem == number 
+
+	// make long line
+	if index == 0 && is_line_start {
+		return fmt.Sprintf("%s%s",SEPARATE_UP, LINE_ROW)
+	}
+
+	if index == len(range_arr)-1 && is_line_start {
+		return fmt.Sprintf("%s%s",SEPARATE_DOWN, LINE_ROW)
+	}
+
+	if is_line_start {
+		return fmt.Sprintf("%s%s",SEPARATE, LINE_ROW)
+	}
+
+	// add separating
 	if index == 0 {
-		return SEPARATE_UP
+		return fmt.Sprintf("%s ",SEPARATE_UP)
 	}
 
-	if index == len(arr)-1 {
-		return SEPARATE_DOWN
+	if index == len(range_arr)-1 {
+		return fmt.Sprintf("%s ",SEPARATE_DOWN)
 	}
 
-	return SEPARATE
+	return fmt.Sprintf("%s ",SEPARATE)
 }
 
 // x = previsou number
@@ -104,9 +121,14 @@ func get_symbol(x, y, current int) string {
 	canWriteDown := current >= y && current <= x && isDown
 
 	// if current is at point
-	if current == x {
-		return POINT
+	if current == x && isUp  {
+		return TURN_LEFT_DOWN
 	}
+
+	if current == x && isDown {
+		return TURN_LEFT_UP
+	}
+
 
 	if canWriteDown && current == y {
 		return TURN_RIGHT_DOWN
@@ -159,7 +181,7 @@ func get_range(min, max int) []int {
 	return arr
 }
 
-func bottom_status(sorted []int) []string {
+func bottom_status(sorted, main []int) []string {
 	full_chart := []string{}
 
 	higestValue := sorted[len(sorted)-1]
@@ -171,7 +193,7 @@ func bottom_status(sorted []int) []string {
 
 		// get spaces and format number + |
 		spaces := generate_space(get_max_len(sorted), value)
-		formatedRange := fmt.Sprintf("%s%d %s", spaces, value, get_separate_symbol(numberRange, index))
+		formatedRange := fmt.Sprintf("%s%d %s", spaces, value, get_separate_symbol(main, numberRange, value, index))
 
 		var formatedItems string
 
@@ -183,13 +205,10 @@ func bottom_status(sorted []int) []string {
 	return full_chart
 }
 
-// TODO make function for path creating
-//	FIXME OFFTOPICS install "languages" for nvim
-
 // Prob get one array with points and second with path, then connect which will add points to path :)
 // print chart
 func cprint(sorted []int, main []int) {
-	chart_numbers := bottom_status(sorted)
+	chart_numbers := bottom_status(sorted, main)
 
 	// get lowest number from range
 	numberRange := get_range(sorted[0], len(sorted)-1)
@@ -202,28 +221,21 @@ func cprint(sorted []int, main []int) {
 			future_letter := main[x+1]
 
 			line_index := len(chart_numbers) + lowest_value - y - 1
-			spaces := get_space(x)
-
 			symbol := get_symbol(letter, future_letter, line_index)
 
+			var spaces string
+			if symbol == "" { spaces = " " } else { spaces = "" }
+
 			// last point
-			if x == 7 && y == 12 {
-				chart_numbers[y] = fmt.Sprintf("%s%s%s", chart_numbers[y], spaces, POINT)
-			} else {
+			// if is_last_letter {
+			// 	fmt.Println("last letter:", future_letter)
+			// 	chart_numbers[y] = fmt.Sprintf("%s%s%s", chart_numbers[y], spaces, SEPARATE_DOWN)
+			// } else {
 				chart_numbers[y] = fmt.Sprintf("%s%s%s", chart_numbers[y], spaces, symbol)
-			}
+			// }
 
 		}
 	}
-
-	// // add points
-	// for index, elem := range main {
-	// 	// display points
-	// 	spaces := get_space(index+1)
-	// 	line_index := len(chart_numbers)+lowest_value-elem-1
-
-	// 	chart_numbers[line_index] = fmt.Sprintf("%s%s%s", chart_numbers[line_index], spaces, POINT)
-	// }
 
 	// print array
 	for _, elem := range chart_numbers {
@@ -235,7 +247,7 @@ func main() {
 	fmt.Printf("Get stock price for BTC\n\n")
 
 	// get currency and sort it
-	items := []int{3, 7, 9, 15, 8, 11, 4, 14, 3}
+	items := []int{ -2, 3, 7, 9, 15, 8, 11, 4, 14, 2}
 	var currency []int
 	var sortedCurrency []int
 
