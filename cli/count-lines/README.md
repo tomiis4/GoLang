@@ -3,6 +3,5 @@ A programm which will count lines of code in current directory
 
 ### TODO
 - [ ] custom exclude files
-- [ ] count files
+- [x] count files
 - [ ] add more languages
-- [ ] fix comments
