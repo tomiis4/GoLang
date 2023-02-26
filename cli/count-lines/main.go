@@ -53,13 +53,38 @@ func split(str, split string) []string {
 	return strings.Split(str, split)
 }
 
-func t_print(arr []LinesCount) {
+func sum(elemType string, stats []LinesCount) int {
+	n := 0
+
+	if elemType == "lines" {
+		for _, e := range stats {
+			n += e.lines
+		}
+	}
+
+	if elemType == "blank" {
+		for _, e := range stats {
+			n += e.blank
+		}
+	}
+
+	if elemType == "files" {
+		for _, e := range stats {
+			n += e.files
+		}
+	}
+
+	return n
+}
+
+func t_print(arr []LinesCount, stats []LinesCount) {
 	top_str := "Language | Lines | Blank | Files"
 
 	fmt.Println(repeat(len(top_str), "-"))
 	fmt.Println(top_str)
 	fmt.Println(repeat(len(top_str), "-"))
 
+	// print stats
 	for _, elem := range arr {
 		lang_len := len(elem.language)
 		lines_len := len(strconv.Itoa(elem.lines))
@@ -79,10 +104,26 @@ func t_print(arr []LinesCount) {
 	}
 
 	fmt.Println(repeat(len(top_str), "-"))
+
+	// print sum
+	sum_lines := sum("lines", stats)
+	sum_blank := sum("blank", stats)
+	sum_files := sum("files", stats)
+
+	sum_lines_len := len(strconv.Itoa(sum_lines))
+	sum_blank_len:= len(strconv.Itoa(sum_blank))
+
+	sum_lines_f := fmt.Sprintf("%s%d", repeat(7, " "), sum_lines)
+	sum_blank_f := fmt.Sprintf("%s%d", repeat(19-(11+sum_lines_len)," "), sum_blank)
+	sum_files_f := fmt.Sprintf("%s%d", repeat(27-(4+7+sum_lines_len+ (19-(11+sum_lines_len)) +sum_blank_len), " "),sum_files)
+
+	fmt.Printf("sum:%s%s%s\n", sum_lines_f, sum_blank_f, sum_files_f)
+
+	fmt.Println(repeat(len(top_str), "-"))
 }
 
 func is_file_valid(name string) bool {
-	valid := []string{"ts", "js", "jsx", "tsx", "c", "cpp", "cs", "java", "rs", "md", "txt", "go", "v", "sh", "bat", "py", "lua", "sass", "css", "scss", "html", "vim", "json"}
+	valid := []string{"ts", "js", "jsx", "tsx", "c", "cpp", "cs", "java", "rs", "md", "txt", "go", "v", "sh", "bat", "py", "lua", "sass", "css", "scss", "html", "vim", "json", "gitignore", "mod", "class", "pyw", "env"}
 
 	for _, elem := range valid {
 		if strings.ToLower(name) == elem {
@@ -134,7 +175,7 @@ func get_files(dir string) []LinesCount {
 		} 
 
 		// if it's file and have valid file extension
-		if ignore && is_file_valid(file_name_ext) {
+		if ignore && !file.IsDir() && is_file_valid(file_name_ext) {
 			// read file
 			content, err := ioutil.ReadFile(file_name)
 			data := string(content)
@@ -176,7 +217,7 @@ func main() {
 	start := time.Now()
 
 	items := get_files(".")
-	t_print(items)
+	t_print(items, stats)
 
    elapsed := time.Since(start)
 	fmt.Printf("Time: %s", elapsed)
