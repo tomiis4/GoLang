@@ -6,7 +6,6 @@
 **                                            **
 ***********************************************/
 
-
 package main
 
 import (
@@ -15,17 +14,17 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
+	"time"
 )
 
 type LinesCount struct {
 	language string
-	comments int
+	files    int
 	blank    int
 	lines    int
 }
 
 type File struct {
-	comments int
 	blank    int
 	lines    int
 }
@@ -55,7 +54,7 @@ func split(str, split string) []string {
 }
 
 func t_print(arr []LinesCount) {
-	top_str := "Language | Lines | Blank | Comments"
+	top_str := "Language | Lines | Blank | Files"
 
 	fmt.Println(repeat(len(top_str), "-"))
 	fmt.Println(top_str)
@@ -72,10 +71,10 @@ func t_print(arr []LinesCount) {
 		blank_spaces := repeat(19 - (lines_len+lang_len+len(lang_spaces)), " ")
 		format_blank := fmt.Sprintf("%s%d", blank_spaces, elem.blank)
 
-		comment_spaces := repeat(27-(blank_len + lines_len + lang_len + len(lang_spaces) + len(blank_spaces)), " ")
-		format_command := fmt.Sprintf("%s%d", comment_spaces, elem.comments)
+		file_spaces := repeat(27-(blank_len + lines_len + lang_len + len(lang_spaces) + len(blank_spaces)), " ")
+		format_file := fmt.Sprintf("%s%d", file_spaces, elem.files)
 
-		formated_str := fmt.Sprintf("%s%s%s", format_lang_lines, format_blank, format_command)
+		formated_str := fmt.Sprintf("%s%s%s", format_lang_lines, format_blank, format_file)
 		fmt.Println(formated_str)
 	}
 
@@ -83,7 +82,7 @@ func t_print(arr []LinesCount) {
 }
 
 func is_file_valid(name string) bool {
-	valid := []string{"ts", "js", "jsx", "tsx", "c", "cpp", "cs", "java", "rs", "md", "txt", "go", "v", "sh", "bat", "py", "lua", "sass", "css", "scss", "html", "vim"}
+	valid := []string{"ts", "js", "jsx", "tsx", "c", "cpp", "cs", "java", "rs", "md", "txt", "go", "v", "sh", "bat", "py", "lua", "sass", "css", "scss", "html", "vim", "json"}
 
 	for _, elem := range valid {
 		if strings.ToLower(name) == elem {
@@ -104,15 +103,8 @@ func get_file_info(content string) File {
 	for _, line := range lines {
 		trimmed := strings.Trim(line, " ")
 
-		// blank lines
 		if trimmed == "" {
 			file.blank++
-		}
-
-		// comments
-		comments := []string{ "#", "//", "/*", "--", "%", "<!--" }
-		if starts_with_arr(trimmed, comments) {
-			file.comments++
 		}
 	}
 
@@ -133,11 +125,16 @@ func get_files(dir string) []LinesCount {
 	for _, file := range files {
 		file_name := fmt.Sprintf("%s/%s", dir, file.Name())
 		file_name_ext := split(file_name, ".")[ len(split(file_name, "."))-1 ]
+
 		ignore := file.Name() != "node_modules" && file.Name() != ".git"
 
+		// if is "file" folder then loop trough it
 		if file.IsDir() && ignore {
 			get_files(file_name)
-		} else if ignore && is_file_valid(file_name_ext) {
+		} 
+
+		// if it's file and have valid file extension
+		if ignore && is_file_valid(file_name_ext) {
 			// read file
 			content, err := ioutil.ReadFile(file_name)
 			data := string(content)
@@ -147,28 +144,27 @@ func get_files(dir string) []LinesCount {
 			}
 
 			file_lines := get_file_info(data)
-
 			does_contain := -1
 
-			// check if it contain
+			// check if it contain or not
 			for index, status := range stats {
 				if status.language == file_name_ext {
 					does_contain = index
 				}
 			}
 
-			// append
+			// append to stats
 			if does_contain == -1 {
 				stats = append(stats, LinesCount{
 					language: file_name_ext,
 					blank: file_lines.blank,
 					lines: file_lines.lines,
-					comments: file_lines.comments,
+					files: 1,
 				})
 			} else {
 				stats[does_contain].blank += file_lines.blank
 				stats[does_contain].lines += file_lines.lines
-				stats[does_contain].comments += file_lines.comments
+				stats[does_contain].files += 1
 			}
 		}
 	}
@@ -177,7 +173,11 @@ func get_files(dir string) []LinesCount {
 }
 
 func main() {
-	items := get_files(".")
+	start := time.Now()
 
+	items := get_files(".")
 	t_print(items)
+
+   elapsed := time.Since(start)
+	fmt.Printf("Time: %s", elapsed)
 }
