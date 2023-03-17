@@ -234,10 +234,10 @@ import "regexp"
 func main() {
 	// regex pattern for end of the line
 	pattern := `\r?\n` 
-	regexCompiled := regexp.MustCompile(pattern)
+	regex_compiled := regexp.MustCompile(pattern)
 	
 	// split and save it to variable data
-	data := regexCompiled.Split("string", -1) // arg1 = string, arg2 = how many time do action 
+	data := regex_compiled.Split("string", -1) // arg1 = string, arg2 = how many time do action 
 }
 ```
 
@@ -263,15 +263,15 @@ func delayS(s time.Duration) {
 import "time"
 import "math/rand"
 
-func randomInt(maxNumber int) int {
+func rand_int(maxNumber int) int {
 	// give random new time because it will not be always random
 	newTime:= rand.NewSource(time.Now().UnixNano())
 	resetRandom := rand.New(newTime)
 	
 	// get random number
-	randomNumber := resetRandom.Intn(maxNumber)
+	random_number := resetRandom.Intn(maxNumber)
 	
-	return randomNumber
+	return random_number
 }
 ```
 
