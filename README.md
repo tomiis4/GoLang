@@ -7,7 +7,7 @@
 * [Hello world](#hello-world)
 * [Importing packages](#importing-packages)
 * [Variables & Types](#variables)
-	* [objects](#objects)
+	* [structs](#structs)
 * [Functions](#functions)
 
 </td>
@@ -19,7 +19,7 @@
 * [Loop](#loop)
 	* [for-i](#for-i)
 	* [for-in](#for-in)
-	* [while true](#while-true)
+	* [while](#while)
 * [Build-in Functions](#build-in-functions)
 	* [convert number](#convert-number-type)
 	* [length](#length)
@@ -27,12 +27,14 @@
 </td>
 <td>
 
+* [Unit testing](#unit-testing)
 * [Packages](#packages)
 	* [fmt](#fmt)
 	* [io/ioutil](#ioioutil)
 	* [regexp](#regexp)
 	* [time](#time)
 	* [math/rand](#mathrand)
+	* [testing](#testing)
 * [Project ideas](#project-ideas)
 </td>
 </table>
@@ -68,24 +70,26 @@ import (
 	"package2"
 )
 
-// import as X
-import pcg "package"
+// import as <name>
+import <name> "package"
 ```
 
 ## Variables
 ```go
-// DYNAMIC
-
 // automatic type
 foo := "String"
 slice := []<type>{}
 
-// own type
+// constants
+const var <type> = <value>
+
+// set own type
 var <name> <type> = <value>
 var slice = []<type>{}
 
-// FIXED
-const var <type> = <value>
+// arrays
+array := [...]<type>{} // fixed size
+array := [][]<type>{} // 2D array
 
 
 /*
@@ -94,21 +98,21 @@ Type:
 	int8, 16, 32, 64  = %d = number in range of x bits, can be negative
 	uint8, 16, 32, 64 = %d = number in range of x bits, can't be negative
 	float32, 64       = %g = decimal numbers
-	string            = %s = any string
+	string            = %s = string
 */
 ```
 
-### Objects
+### Structs
 ```go
-type Object struct {
+type Struct struct {
 	x <type>
 	y <type>
 }
 
 func function() {
-	var obj Object
+	var foo Struct
 	
-	obj.x = <value>
+	foo.x = <value>
 }
 ```
 
@@ -118,11 +122,13 @@ func name() {
 	//...
 }
 
-// return & argument
-func name(arg <type>) <type> {
-	//...
-	return arg
-}
+// return
+func name() <type> { return x }
+func name() (<type>, <type>) { return x, y }
+
+// parameters 
+func name(param1 <type>) {  }
+func name(param1, param2 <type>) {  } // if param1 have same type as param2
 ```
 
 ## Logic Statements
@@ -140,19 +146,19 @@ if statement {
 ### Switch/case
 ```go
 switch statement {
-	case x:
-		//...
-	case y:
-		//...
-	default:
-		//...
+case x:
+	//...
+case y:
+	//...
+default:
+	//...
 }
 ```
 
 ## Loop
 ### For-I
 ```go
-for i:=0; i < 5; i++ {
+for i:=0; i<5; i++ {
 	//...
 }
 ```
@@ -164,9 +170,9 @@ for index, value := range arr {
 }
 ```
 
-### While true
+### While
 ```go
-for ;; {
+for {
 	if statement {
 		break
 	}
@@ -191,6 +197,34 @@ str := "hello"
 strLength := len(str) // 5
 ```
 
+## Unit Testing
+```sh
+go test
+```
+```go
+// main.go
+package main
+
+func abs(number int) int {
+	if number > 0 { return number }
+	return number * -1
+}
+
+// main_test.go
+// test files must have _test
+package main
+
+import "testing"
+
+// starts with capital letter
+func TestAbs(t *testing.T) {
+	if abs(-1) < {
+		t.Error("Negative value was found in abs() with", -1)
+	}
+}
+```
+
+
 ## Packages
 ### fmt
 #### Print content
@@ -203,13 +237,18 @@ fmt.Println(...)
 // print on same line, variables using format
 fmt.Printf(...)
 ```
-
 #### Get user input
 ```go
 import "fmt"
 
 var variable <type>
 fmt.Scanf("%<format>", &variable)
+```
+#### Format string
+```go
+import "fmt"
+
+fmt.Sprintf("%<format> %<format>", <variable>, <variable>)
 ```
 
 ### io/ioutil
@@ -251,8 +290,8 @@ func delayMs(ms time.Duration) {
 	time.Sleep(ms * time.Milisecond)
 }
 
-// second
-func delayS(s time.Duration) {
+// sec
+func delaySec(s time.Duration) {
 	time.Sleep(s * time.Second)
 }
 ```
@@ -263,7 +302,7 @@ func delayS(s time.Duration) {
 import "time"
 import "math/rand"
 
-func rand_int(maxNumber int) int {
+func randInt(maxNumber int) int {
 	// give random new time because it will not be always random
 	newTime:= rand.NewSource(time.Now().UnixNano())
 	resetRandom := rand.New(newTime)
@@ -272,6 +311,24 @@ func rand_int(maxNumber int) int {
 	random_number := resetRandom.Intn(maxNumber)
 	
 	return random_number
+}
+```
+
+### testing
+#### methods
+```go
+import "testing"
+
+func TestFunction(t *testing.T) {
+	// throw error and stop
+	t.Error("message")
+
+	// throw error and contiune
+	t.Fail("message")
+
+	// print message
+	t.Log("message")
+	t.Logf("message %d", 1)
 }
 ```
 
