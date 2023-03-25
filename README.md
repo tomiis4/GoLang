@@ -8,21 +8,25 @@
 * [Importing packages](#importing-packages)
 * [Variables & Types](#variables)
 	* [structs](#structs)
+	* [map](#map)
 * [Functions](#functions)
+* [Logic Statements](#logic-statements)
+	* [if/else](#ifelse)
+	* [switch/case](#switchcase)
 
 </td>
 <td>
 
-* [Logic Statements](#logic-statements)
-	* [if/else](#ifelse)
-	* [switch/case](#switchcase)
 * [Loop](#loop)
 	* [for-i](#for-i)
 	* [for-in](#for-in)
 	* [while](#while)
+* [Converting](#converting)
 * [Build-in Functions](#build-in-functions)
-	* [convert number](#convert-number-type)
+	* [append](#append)
 	* [length](#length)
+	* [panic](#panic)
+	* [copy](#copy)
 
 </td>
 <td>
@@ -91,6 +95,8 @@ var slice = []<type>{}
 array := [...]<type>{} // fixed size
 array := [][]<type>{} // 2D array
 
+// maps (similar to objects/json in JavaScript)
+maps := map[<key-type>]<value-type>{}
 
 /*
 Type: 
@@ -109,11 +115,42 @@ type Struct struct {
 	y <type>
 }
 
-func function() {
-	var foo Struct
-	
-	foo.x = <value>
+// 1
+foo := Struct{
+	x: <value>,
+	y: <value>
 }
+
+// 2
+foo := Struct{}
+
+foo.x = <value>
+foo.y = <value>
+```
+
+### Map
+```go
+// initialize
+maps := map[<key-type>]<value-type>{}
+
+// declare
+// in this example KEY-TYPE = string, VALUE-TYPE = int
+maps := map[<key-type>]<value-type>{
+	"bar": 10,
+	"foo": 5
+}
+
+// add new key
+<map>[<key>] = <value>
+
+// get value
+value := <map>[<key>]
+
+// check if value exists (ok = true|false)
+value, ok := <map>[<key>]
+
+// delete key & value
+delete(<map>, <key>)
 ```
 
 ## Functions
@@ -179,11 +216,30 @@ for {
 }
 ```
 
-## Build-In Functions
-### Convert number type
+## Converting
 ```go
-x := uint8(2)
-y := float32(3.1415926535)
+import "strconv"
+
+// str -> int
+num, err := strconv.Atoi( <string> )
+
+// int -> str
+str, err := strconv.Itoa( <number> )
+
+// number -> int8, 16, 32, 64
+num := int<bit>( <number> )
+
+// number -> uint8, 16, 32, 64
+num := uint<bit>( <number> )
+
+// number -> float32, float64
+num := float<bit>( <number> )
+```
+
+## Build-In Functions
+### Append
+```go
+<slice> = append(<slice>, <value>)
 ```
 
 ### Length
@@ -195,6 +251,21 @@ arrayLength := len(arr) // 4
 // string
 str := "hello"
 strLength := len(str) // 5
+
+// map
+maps := map[string]int{ "x":10, "y":15 }
+mapsLength := len(maps) // 2
+```
+
+### Panic
+```go
+// make runtime error and stop program
+panic( <message> )
+```
+
+### Copy
+```go
+copy(<slice-to>, <slice-from>)
 ```
 
 ## Unit Testing
