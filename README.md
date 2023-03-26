@@ -31,7 +31,12 @@
 </td>
 <td>
 
+* [Pointers](#pointers)
 * [Unit testing](#unit-testing)
+
+</td>
+<td>
+
 * [Packages](#packages)
 	* [fmt](#fmt)
 	* [io/ioutil](#ioioutil)
@@ -39,15 +44,20 @@
 	* [time](#time)
 	* [math/rand](#mathrand)
 	* [testing](#testing)
+	* [reflect](#reflect)
 * [Project ideas](#project-ideas)
 </td>
 </table>
 
+
 ## File
+
 ### Run file
 `go run file.go`
+
 ### Generate exe file
 `go build file.go`
+
 
 ## Hello world
 ```go
@@ -63,6 +73,7 @@ func main() {
 }
 ```
 
+
 ## Importing packages
 ```go
 // import one package
@@ -77,6 +88,7 @@ import (
 // import as <name>
 import <name> "package"
 ```
+
 
 ## Variables
 ```go
@@ -141,17 +153,18 @@ maps := map[<key-type>]<value-type>{
 }
 
 // add new key
-<map>[<key>] = <value>
+map[<key>] = <value>
 
 // get value
-value := <map>[<key>]
+value := map[<key>]
 
 // check if value exists (ok = true|false)
-value, ok := <map>[<key>]
+value, ok := map[<key>]
 
 // delete key & value
-delete(<map>, <key>)
+delete(map, <key>)
 ```
+
 
 ## Functions
 ```go
@@ -168,12 +181,14 @@ func name(param1 <type>) {  }
 func name(param1, param2 <type>) {  } // if param1 have same type as param2
 ```
 
+
 ## Logic Statements
+
 ### If/else
 ```go
 if statement {
 	//...
-} else if statement2{
+} else if statement2 {
 	//...
 } else {
 	//...
@@ -192,7 +207,9 @@ default:
 }
 ```
 
+
 ## Loop
+
 ### For-I
 ```go
 for i:=0; i<5; i++ {
@@ -216,6 +233,7 @@ for {
 }
 ```
 
+
 ## Converting
 ```go
 import "strconv"
@@ -236,7 +254,9 @@ num := uint<bit>( <number> )
 num := float<bit>( <number> )
 ```
 
+
 ## Build-In Functions
+
 ### Append
 ```go
 <slice> = append(<slice>, <value>)
@@ -244,9 +264,9 @@ num := float<bit>( <number> )
 
 ### Length
 ```go
-// array
-arr := []uint8{1,2,3,4}
-arrayLength := len(arr) // 4
+// slice
+slice := []uint8{1,2,3,4}
+sliceLength := len(slice) // 4
 
 // string
 str := "hello"
@@ -259,7 +279,7 @@ mapsLength := len(maps) // 2
 
 ### Panic
 ```go
-// make runtime error and stop program
+// make runtime error and stops the program
 panic( <message> )
 ```
 
@@ -267,6 +287,23 @@ panic( <message> )
 ```go
 copy(<slice-to>, <slice-from>)
 ```
+
+
+## Pointers
+```go
+// create new pointer and allocate memory
+pointer := new(<type>)
+
+// change data from address/pointer
+*pointer = <value>
+
+// read data from address/pointer
+*pointer
+
+// get address from variable
+&variable
+```
+
 
 ## Unit Testing
 ```sh
@@ -297,7 +334,9 @@ func TestAbs(t *testing.T) {
 
 
 ## Packages
+
 ### fmt
+
 #### Print content
 ```go
 import "fmt"
@@ -308,6 +347,7 @@ fmt.Println(...)
 // print on same line, variables using format
 fmt.Printf(...)
 ```
+
 #### Get user input
 ```go
 import "fmt"
@@ -315,6 +355,7 @@ import "fmt"
 var variable <type>
 fmt.Scanf("%<format>", &variable)
 ```
+
 #### Format string
 ```go
 import "fmt"
@@ -323,6 +364,7 @@ fmt.Sprintf("%<format> %<format>", <variable>, <variable>)
 ```
 
 ### io/ioutil
+
 #### Read file content
 ```go
 import "io/ioutil"
@@ -332,11 +374,12 @@ func main() {
 	data, err := ioutil.ReadFile("./file")
 	
 	// check for errors
-	if err != nil { fmt.Println(err) }
+	if err != nil { panic(err) }
 }
 ```
 
 ### regexp
+
 #### Split string using regex
 ```go
 import "regexp"
@@ -347,11 +390,12 @@ func main() {
 	regex_compiled := regexp.MustCompile(pattern)
 	
 	// split and save it to variable data
-	data := regex_compiled.Split("string", -1) // arg1 = string, arg2 = how many time do action 
+	data := regex_compiled.Split("string", -1) // param1=string, param2=how many time do action 
 }
 ```
 
 ### time
+
 #### Delay
 ```go
 import "time"
@@ -368,14 +412,17 @@ func delaySec(s time.Duration) {
 ```
 
 ### math/rand
+
 #### Random number
 ```go
-import "time"
-import "math/rand"
+import (
+	"time"
+	"math/rand"
+)
 
 func randInt(maxNumber int) int {
-	// give random new time because it will not be always random
-	newTime:= rand.NewSource(time.Now().UnixNano())
+	// reset time, so it will be random
+	newTime := rand.NewSource(time.Now().UnixNano())
 	resetRandom := rand.New(newTime)
 	
 	// get random number
@@ -386,6 +433,7 @@ func randInt(maxNumber int) int {
 ```
 
 ### testing
+
 #### methods
 ```go
 import "testing"
@@ -401,6 +449,16 @@ func TestFunction(t *testing.T) {
 	t.Log("message")
 	t.Logf("message %d", 1)
 }
+```
+
+### reflect
+
+#### type-of
+```go
+import "reflect"
+
+// get type of variable
+reflect.TypeOf(<variable>) // return type
 ```
 
 ## Project ideas
