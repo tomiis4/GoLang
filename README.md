@@ -461,6 +461,13 @@ import "reflect"
 reflect.TypeOf(<variable>) // return type
 ```
 
+## Todo
+- [ ] go.mod/packages
+- [ ] export file
+- [ ] goroutines/channels
+- [ ] stdlib -> encoding, net/http, sort, strconv, strings, json
+- [ ] generics
+
 ## Project ideas
 * [2048 game](https://github.com/tomiis4/GoLang/tree/main/2048)
 * [language guessing game](https://github.com/tomiis4/GoLang/tree/main/guess-lang)
