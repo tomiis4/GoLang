@@ -4,13 +4,14 @@
 <td>
 
 * [File](#file)
+	* [go.mod](#go.mod)
 * [Hello world](#hello-world)
 * [Importing packages](#importing-packages)
 * [Variables & Types](#variables)
 	* [structs](#structs)
 	* [map](#map)
 * [Functions](#functions)
-* [Logic Statements](#logic-statements)
+* [Logic statements](#logic-statements)
 	* [if/else](#ifelse)
 	* [switch/case](#switchcase)
 
@@ -22,7 +23,7 @@
 	* [for-in](#for-in)
 	* [while](#while)
 * [Converting](#converting)
-* [Build-in Functions](#build-in-functions)
+* [Build-in iunctions](#build-in-functions)
 	* [append](#append)
 	* [length](#length)
 	* [panic](#panic)
@@ -33,10 +34,12 @@
 
 * [Pointers](#pointers)
 * [Unit testing](#unit-testing)
+* [External file](#external-file)
 
 </td>
 <td>
 
+* [Remote packages](#remote-packages)
 * [Packages](#packages)
 	* [fmt](#fmt)
 	* [io/ioutil](#ioioutil)
@@ -57,6 +60,9 @@
 
 ### Generate exe file
 `go build file.go`
+
+### go.mod
+`go mod init <module-url>`
 
 
 ## Hello world
@@ -326,10 +332,53 @@ import "testing"
 
 // starts with capital letter
 func TestAbs(t *testing.T) {
-	if abs(-1) < {
+	if abs(-1) < 0 {
 		t.Error("Negative value was found in abs() with", -1)
 	}
 }
+```
+
+
+## External file
+```go
+// create go.mod if you don't have one
+go mod init <link-to-module> // for this we will use 'modules'
+
+// folder structure
+|- go.mod
+|- main.go
+|
+|- example
+  |- second.go
+
+// main.go
+package main
+import "modules/example"
+
+func main() {
+	example.Foo()
+}
+
+// second.go
+package example
+
+func Foo() {
+	//...
+}
+```
+
+
+
+## Remote packages
+
+### Install packages
+```
+go get <link-to-module>
+```
+
+### Import packages
+```go
+import "<link-to-module>"
 ```
 
 
@@ -461,12 +510,12 @@ import "reflect"
 reflect.TypeOf(<variable>) // return type
 ```
 
+
 ## Todo
-- [ ] go.mod/packages
-- [ ] export file
 - [ ] goroutines/channels
 - [ ] stdlib -> encoding, net/http, sort, strconv, strings, json
 - [ ] generics
+
 
 ## Project ideas
 * [2048 game](https://github.com/tomiis4/GoLang/tree/main/2048)
