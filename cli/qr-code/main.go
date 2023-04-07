@@ -1,3 +1,12 @@
+// ******************************* //
+// *                             * //
+// *         Informations        * //
+// *                             * //
+// * thonky.com/qr-code-tutorial * //
+// *                             * //
+// ******************************* //
+
+
 package main
 
 import (
@@ -246,6 +255,7 @@ func fillBytes(current string, max int) string {
    for i:=0; i < paddLen; i++ {
       filled += paddBytes[i % 2]
    }
+   fmt.Println(paddLen)
 
    return filled
 }
@@ -270,7 +280,8 @@ func splitDecimals(code string) []int {
 // indicator = 0010
 // https://www.thonky.com/qr-code-tutorial/error-correction-table
 func encodeStr() {
-   maxBytes := 16 * 8// (1-M)
+   maxBytes := 16 * 8 // (1-M)
+   //codewords := 10 // (byte)
    str := "HELLO WORLD"
    strLen := len(str)
 
@@ -286,6 +297,7 @@ func encodeStr() {
    decimals := splitDecimals(filled)
 
    fmt.Println(decimals)
+   fmt.Println(len(filled))
 }
 
 func main() {
