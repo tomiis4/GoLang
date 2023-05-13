@@ -1,7 +1,7 @@
 # CLI Code Run Tool
 
 ## Compile
-`go build main.go -o run.exe`
+`go build -o run.exe main.go`
 
 ## Supported languages
 - `exe`
