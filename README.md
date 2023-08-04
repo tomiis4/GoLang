@@ -45,6 +45,7 @@
 	* [fmt](#fmt)
 	* [io/ioutil](#ioioutil)
 	* [regexp](#regexp)
+    * [net/http](#nethttp)
 	* [time](#time)
 	* [math/rand](#mathrand)
 	* [testing](#testing)
@@ -452,6 +453,44 @@ func main() {
 }
 ```
 
+### net/http
+
+##### Simple http server
+```go
+import (
+    "net/http"
+    "log"
+)
+
+func main() {
+    http.HandleFunc("/bar", func(w http.ResponseWriter, r *http.Request) {
+        // http://127.0.0.1:<port>/bar
+    })
+
+    port := "8080"
+    err := http.ListenAndServe(":" + port, nil)
+
+    if err != nil {
+        log.Fatal(err)
+    }
+}
+```
+
+#### HTTP Requests
+```go
+import "net/http"
+
+// GET request
+resp, err := http.Get(url)
+defer resp.Body.Close() // close connection
+body, err := io.ReadAll(resp.Body)
+
+// POST request
+resp, err := http.Post(url, content_type, &buf)
+defer resp.Body.Close() // close connection
+body, err := io.ReadAll(resp.Body)
+```
+
 ### time
 
 #### Delay
@@ -523,7 +562,7 @@ reflect.TypeOf(<variable>) // return type
 ## Todo
 - [ ] goroutines/channels
 - [ ] add types, byte..
-- [ ] stdlib -> encoding, net/http, sort, strconv, strings, json
+- [ ] stdlib -> encoding, sort, strconv, strings, json
 - [ ] generics
 - [ ] interface
 
