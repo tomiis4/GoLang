@@ -31,6 +31,8 @@ func main() {
       cmd = exec.Command("v run " + fileName + params)
    case "zig":
       cmd = exec.Command("zig run " + fileName + params)
+   case "lua":
+      cmd = exec.Command("lua " + fileName + params)
    default:
       panic(fmt.Sprintf("Format *.%s is not supported.", extension))
    }

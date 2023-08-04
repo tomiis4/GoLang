@@ -10,6 +10,7 @@
 * [Variables & Types](#variables)
 	* [structs](#structs)
 	* [map](#map)
+    * [generics](#generics)
 * [Functions](#functions)
 * [Logic statements](#logic-statements)
 	* [if/else](#ifelse)
@@ -171,6 +172,10 @@ value, ok := map[<key>]
 delete(map, <key>)
 ```
 
+### Generics
+```go
+```
+
 
 ## Functions
 ```go
@@ -185,6 +190,10 @@ func name() (<type>, <type>) { return x, y }
 // parameters 
 func name(param1 <type>) {  }
 func name(param1, param2 <type>) {  } // if param1 have same type as param2
+
+// function for type
+func (a <type>) name() {  }
+x.name()
 ```
 
 
@@ -513,14 +522,16 @@ reflect.TypeOf(<variable>) // return type
 
 ## Todo
 - [ ] goroutines/channels
+- [ ] add types, byte..
 - [ ] stdlib -> encoding, net/http, sort, strconv, strings, json
 - [ ] generics
+- [ ] interface
 
 
 ## Project ideas
 * [2048 game](https://github.com/tomiis4/GoLang/tree/main/2048)
 * [language guessing game](https://github.com/tomiis4/GoLang/tree/main/guess-lang)
-* [simple cli tower defense](https://github.com/tomiis4/GoLang/tree/main/tower-defense)
 * [cli plot chart](https://github.com/tomiis4/GoLang/tree/main/cli/plot-chart)
+* [simple cli tower defense](https://github.com/tomiis4/GoLang/tree/main/tower-defense)
 * [calculator](https://github.com/tomiis4/GoLang/tree/main/calculator)
 * [rock-paper-scissors](https://github.com/tomiis4/GoLang/tree/main/rps)
