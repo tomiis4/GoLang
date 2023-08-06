@@ -10,8 +10,9 @@
 * [Variables & Types](#variables)
 	* [structs](#structs)
 	* [map](#map)
-    * [generics](#generics)
+	* [interface](#interface)
 * [Functions](#functions)
+    * [generics](#generics)
 * [Logic statements](#logic-statements)
 	* [if/else](#ifelse)
 	* [switch/case](#switchcase)
@@ -173,8 +174,28 @@ value, ok := map[<key>]
 delete(map, <key>)
 ```
 
-### Generics
+### Interface
 ```go
+// create interface
+type <Name> interface {
+    func() int // return type is optional
+}
+
+// create struct
+type <NameStr> struct {}
+
+// create method for struct
+func (n NameStr) func() int {
+    // ...
+}
+
+// function which take interface as argument
+func NameFunc(x Name) {
+    x.func()
+}
+
+// works for each struct which have same methods as interface
+NameFunc(NameStr{}) 
 ```
 
 
@@ -195,6 +216,18 @@ func name(param1, param2 <type>) {  } // if param1 have same type as param2
 // function for type
 func (a <type>) name() {  }
 x.name()
+```
+
+### Generics
+```go
+// best practice to name T or S
+
+// create function
+func name[T any](param T) {  } // v1
+func name[T interface{}](param T) {  } // v2
+
+// call function, [type] is optional
+name[<type>](param)
 ```
 
 
@@ -563,8 +596,6 @@ reflect.TypeOf(<variable>) // return type
 - [ ] goroutines/channels
 - [ ] add types, byte..
 - [ ] stdlib -> encoding, sort, strconv, strings, json
-- [ ] generics
-- [ ] interface
 
 
 ## Project ideas

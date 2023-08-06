@@ -1,10 +1,13 @@
-package main
+package generics
 
 import "fmt"
 
-type Number interface {
-	float32 | float64
+func printAny[S interface{}](s []S) {
+    for k, v := range s {
+        fmt.Println(k, v)
+    }
 }
 
 func main() {
+    printAny([]int{4})
 }

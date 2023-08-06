@@ -1,42 +1,34 @@
 package main
 
-import (
-    "fmt"
-)
+import "fmt"
 
-type num int
+// Animal interface defines a method for producing a sound.
+type Animal interface {
+    MakeSound() string
+}
 
-func (a *num) add(b num) {
-    *a += b
+// Dog type implements the Animal interface.
+type Dog struct{}
+
+func (d Dog) MakeSound() string {
+    return "Woof!"
+}
+
+// Cat type implements the Animal interface.
+type Cat struct{}
+
+func (c Cat) MakeSound() string {
+    return "Meow!"
+}
+
+func PrintAnimalSound(animal Animal) {
+    fmt.Println("Animal sound:", animal.MakeSound())
 }
 
 func main() {
-    var x num = 55
-    var y num = 5
-    x.add(y)
+    dog := Dog{}
+    cat := Cat{}
 
-    fmt.Println(x)
+    PrintAnimalSound(dog) // Output: Animal sound: Woof!
+    PrintAnimalSound(cat) // Output: Animal sound: Meow!
 }
-
-// type geometry interface {
-//     area() float64
-// }
-//
-// type rect struct {
-//     width, height float64
-// }
-//
-// func (r rect) area() float64 {
-//     return r.width * r.height
-// }
-//
-// func measure(g geometry) {
-//     fmt.Println(g)
-//     fmt.Println(g.area())
-// }
-//
-// func main() {
-//     r := rect{width: 3, height: 4}
-//
-//     measure(r)
-// }
