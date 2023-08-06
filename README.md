@@ -35,6 +35,8 @@
 <td>
 
 * [Pointers](#pointers)
+* [Goroutines](#goroutines)
+	* [channels](#channels)
 * [Unit testing](#unit-testing)
 * [External file](#external-file)
 
@@ -205,7 +207,7 @@ NameFunc(NameStr{})
 ## Functions
 ```go
 func name() {
-	//...
+	// ...
 }
 
 // return
@@ -216,7 +218,12 @@ func name() (<type>, <type>) { return x, y }
 func name(param1 <type>) {  }
 func name(param1, param2 <type>) {  } // if param1 have same type as param2
 
-// function for type
+// anonymous function
+func() {
+    // ...
+}()
+
+// method function
 func (a <type>) name() {  }
 x.name()
 ```
@@ -239,11 +246,11 @@ name[<type>](param)
 ### If/else
 ```go
 if statement {
-	//...
+	// ...
 } else if statement2 {
-	//...
+	// ...
 } else {
-	//...
+	// ...
 }
 ```
 
@@ -251,11 +258,11 @@ if statement {
 ```go
 switch statement {
 case x:
-	//...
+	// ...
 case y:
-	//...
+	// ...
 default:
-	//...
+	// ...
 }
 ```
 
@@ -265,14 +272,14 @@ default:
 ### For-I
 ```go
 for i:=0; i<5; i++ {
-	//...
+	// ...
 }
 ```
 
 ### For-In
 ```go
 for index, value := range arr {
-	//...
+	// ...
 }
 ```
 
@@ -363,6 +370,41 @@ pointer := new(<type>)
 ```
 
 
+## Goroutines
+```go
+// create thread
+go <function()>
+
+
+// wait to thread finish
+import "sync"
+
+var wg sync.WaitGroup
+
+wg.Add(1) // number of goroutines to wait for
+go myFunction() // function need to contain `defer wg.Done()`
+wg.Wait()
+```
+
+### Channels
+```go
+// create channel
+ch := make(chan <type>)
+
+// send to channel
+ch <- <value>
+
+// receive from channel
+received := <-ch
+
+// close channel
+close(ch)
+
+// check if is channel cloed
+received, ok := <-ch // ok = bool
+```
+
+
 ## Unit Testing
 ```sh
 go test
@@ -415,7 +457,7 @@ func main() {
 package example
 
 func Foo() {
-	//...
+	// ...
 }
 ```
 
@@ -602,7 +644,7 @@ reflect.TypeOf(<variable>) // return type
 
 
 ## Todo
-- [ ] goroutines/channels
+- [ ] update links, add images
 - [ ] stdlib -> encoding, sort, strconv, strings, json
 
 
