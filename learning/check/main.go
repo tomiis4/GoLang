@@ -54,4 +54,8 @@ func main() {
 	var num64 int64 = 5645412 
 
 	fmt.Println(str, ":", reflect.TypeOf(str), "\n", num64, ":", reflect.TypeOf(num64))
+
+    // convert
+    bytes := []byte("Ahoj")
+    fmt.Println(string(bytes), bytes)
 }

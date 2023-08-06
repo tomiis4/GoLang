@@ -121,11 +121,14 @@ maps := map[<key-type>]<value-type>{}
 
 /*
 Type: 
-	bool              = %t = true, false
-	int8, 16, 32, 64  = %d = number in range of x bits, can be negative
-	uint8, 16, 32, 64 = %d = number in range of x bits, can't be negative
-	float32, 64       = %g = decimal numbers
-	string            = %s = string
+	bool                = %t = true, false
+	int, 8, 16, 32, 64  = %d = number in range of x bits, can be negative
+	uint, 8, 16, 32, 64 = %d = number in range of x bits, can't be negative
+	float32, 64         = %g = decimal numbers
+	string              = %s = string
+	byte                = %d = byte value
+	rune                = %d = Unicode
+	complex32, 64       = %g = complex numbers with real and imaginary parts
 */
 ```
 
@@ -301,6 +304,12 @@ num := uint<bit>( <number> )
 
 // number -> float32, float64
 num := float<bit>( <number> )
+
+// string -> byte
+bytes := []byte(<string>)
+
+// byte -> string
+string(bytes)
 ```
 
 
@@ -594,7 +603,6 @@ reflect.TypeOf(<variable>) // return type
 
 ## Todo
 - [ ] goroutines/channels
-- [ ] add types, byte..
 - [ ] stdlib -> encoding, sort, strconv, strings, json
 
 
