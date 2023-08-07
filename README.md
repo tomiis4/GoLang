@@ -691,13 +691,13 @@ reflect.TypeOf(<variable>) // return type
 
 
 ## Project ideas
-- [2048 game](https://github.com/tomiis4/GoLang/tree/main/cli/2048)
+- [2048 game](https://github.com/tomiis4/GoLang/tree/main/cli/games/2048)
     - ![image](https://media.discordapp.net/attachments/772927831441014847/1138175932176285807/image.png?width=461&height=433)
-- [language guessing game](https://github.com/tomiis4/GoLang/tree/main/cli/guess-lang)
+- [language guessing game](https://github.com/tomiis4/GoLang/tree/main/cli/games/guess-lang)
     - ![image](https://media.discordapp.net/attachments/772927831441014847/1138177129733955604/image.png?width=1037&height=500)
-- [plot chart](https://github.com/tomiis4/GoLang/tree/main/cli/plot-chart)
+- [plot chart](https://github.com/tomiis4/GoLang/tree/main/cli/tools/plot-chart)
     - ![image](https://media.discordapp.net/attachments/772927831441014847/1138178048152322088/image.png?width=368&height=500)
-- [LOC counter](https://github.com/tomiis4/GoLang/tree/main/cli/count-lines)
+- [LOC counter](https://github.com/tomiis4/GoLang/tree/main/cli/tools/count-lines)
     - ![image](https://media.discordapp.net/attachments/772927831441014847/1138179120480657438/image.png?width=577&height=500)
 - [list files]()
     - ![image](https://media.discordapp.net/attachments/772927831441014847/1138180029654765690/image.png?width=1105&height=168)
