@@ -542,13 +542,13 @@ func main() {
 ### json
 ```go
 // unmarshal (JSON -> structs)
-
 type Struct stuct {
     x string // same as JSON key
     y string `json:"SomeKey"`  // different as JSON key
 }
 var structVar Struct
 json.Unmarshal([]byte(<string>), &structVar)
+
 
 // marshal (structs -> JSON)
 type Struct struct {
