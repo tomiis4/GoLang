@@ -48,6 +48,7 @@
 	* [fmt](#fmt)
 	* [io/ioutil](#ioioutil)
 	* [regexp](#regexp)
+	* [json](#json)
     * [net/http](#nethttp)
     * [sort](#sort)
 	* [time](#time)
@@ -536,6 +537,27 @@ func main() {
 	// split and save it to variable data
 	data := regex_compiled.Split("string", -1) // param1=string, param2=how many time do action 
 }
+```
+
+### json
+```go
+// unmarshal (JSON -> structs)
+
+type Struct stuct {
+    x string // same as JSON key
+    y string `json:"SomeKey"`  // different as JSON key
+}
+var structVar Struct
+json.Unmarshal([]byte(<string>), &structVar)
+
+// marshal (structs -> JSON)
+type Struct struct {
+    x string `json:"SomeKey"`
+}
+structVar := Struct{
+    x: "y"
+}
+data, err := json.Marshal(&structVar) // use string(data)
 ```
 
 ### net/http
