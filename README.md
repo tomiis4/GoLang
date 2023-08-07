@@ -49,6 +49,7 @@
 	* [io/ioutil](#ioioutil)
 	* [regexp](#regexp)
     * [net/http](#nethttp)
+    * [sort](#sort)
 	* [time](#time)
 	* [math/rand](#mathrand)
 	* [testing](#testing)
@@ -575,6 +576,26 @@ defer resp.Body.Close() // close connection
 body, err := io.ReadAll(resp.Body)
 ```
 
+### sort
+```go
+import "sort"
+
+// sort strings
+sort.Strings([]string{"x", "y"})
+
+// sort ints
+sort.Ints([]int{5, 4})
+
+// sort float64s
+sort.float64s([]float64{1.4, 1.9})
+
+// sort other types
+arr := []int64{5,6}
+sort.Slice(arr, func(i, j int) bool {
+    return arr[i] > arr[j]
+})
+```
+
 ### time
 
 #### Delay
@@ -645,7 +666,7 @@ reflect.TypeOf(<variable>) // return type
 
 ## Todo
 - [ ] update links, add images
-- [ ] stdlib -> encoding, sort, strconv, strings, json
+- [ ] stdlib -> encoding, strconv, strings, json
 
 
 ## Project ideas

@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"reflect"
+	"sort"
+	"encoding/json"
 )
 
 func main() {
@@ -58,4 +60,13 @@ func main() {
     // convert
     bytes := []byte("Ahoj")
     fmt.Println(string(bytes), bytes)
+
+    // sort
+    sort.Ints([]int{5,1})
+    sort.Strings([]string{"a", "cx"})
+    // sort.Float64s()
+    arr1 := []int64{5,6}
+    sort.Slice(arr1, func(i, j int) bool {
+        return arr1[i] > arr1[j]
+    })
 }
