@@ -687,14 +687,17 @@ reflect.TypeOf(<variable>) // return type
 
 
 ## Todo
-- [ ] update links, add images
-- [ ] stdlib -> encoding, strconv, strings, json
+- [ ] stdlib -> encoding, strconv, strings
 
 
 ## Project ideas
-* [2048 game](https://github.com/tomiis4/GoLang/tree/main/2048)
-* [language guessing game](https://github.com/tomiis4/GoLang/tree/main/guess-lang)
-* [cli plot chart](https://github.com/tomiis4/GoLang/tree/main/cli/plot-chart)
-* [simple cli tower defense](https://github.com/tomiis4/GoLang/tree/main/tower-defense)
-* [calculator](https://github.com/tomiis4/GoLang/tree/main/calculator)
-* [rock-paper-scissors](https://github.com/tomiis4/GoLang/tree/main/rps)
+- [2048 game](https://github.com/tomiis4/GoLang/tree/main/cli/2048)
+    - ![image](https://media.discordapp.net/attachments/772927831441014847/1138175932176285807/image.png?width=461&height=433)
+- [language guessing game](https://github.com/tomiis4/GoLang/tree/main/cli/guess-lang)
+    - ![image](https://media.discordapp.net/attachments/772927831441014847/1138177129733955604/image.png?width=1037&height=500)
+- [plot chart](https://github.com/tomiis4/GoLang/tree/main/cli/plot-chart)
+    - ![image](https://media.discordapp.net/attachments/772927831441014847/1138178048152322088/image.png?width=368&height=500)
+- [LOC counter](https://github.com/tomiis4/GoLang/tree/main/cli/count-lines)
+    - ![image](https://media.discordapp.net/attachments/772927831441014847/1138179120480657438/image.png?width=577&height=500)
+- [list files]()
+    - ![image](https://media.discordapp.net/attachments/772927831441014847/1138180029654765690/image.png?width=1105&height=168)

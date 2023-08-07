@@ -6,17 +6,16 @@ import (
 	"strconv"
 )
 
-const SEPARATE string = "Ôö╝"
-const SEPARATE_UP string = "ÔöČ"
-const SEPARATE_DOWN string = "Ôö┤"
+const SEPARATE string = "┼"
+const SEPARATE_UP string = "┬"
+const SEPARATE_DOWN string = "┴"
 
-const TURN_LEFT_UP string = "ÔĽ«"
-const TURN_RIGHT_UP string = "ÔĽş"
-const TURN_LEFT_DOWN string = "ÔĽ»"
-const TURN_RIGHT_DOWN string = "ÔĽ░"
-const LINE_COLUMN string = "Ôöé"
-const LINE_ROW string = "ÔöÇ"
-
+const TURN_LEFT_UP string = "╮"
+const TURN_RIGHT_UP string = "╭"
+const TURN_LEFT_DOWN string = "╯"
+const TURN_RIGHT_DOWN string = "╰"
+const LINE_COLUMN string = "│"
+const LINE_ROW string = "─"
 
 func get_lowest_value(arr []int) int {
 	sort.Ints(arr)
@@ -60,31 +59,31 @@ func indexOf(arr []int, num int) int {
 // get spearating symbol based on index (for better look)
 func get_separate_symbol(main, range_arr []int, number, index int) string {
 	first_elem := main[0]
-	is_line_start := first_elem == number 
+	is_line_start := first_elem == number
 
 	// make long line
 	if index == 0 && is_line_start {
-		return fmt.Sprintf("%s%s",SEPARATE_UP, LINE_ROW)
+		return fmt.Sprintf("%s%s", SEPARATE_UP, LINE_ROW)
 	}
 
 	if index == len(range_arr)-1 && is_line_start {
-		return fmt.Sprintf("%s%s",SEPARATE_DOWN, LINE_ROW)
+		return fmt.Sprintf("%s%s", SEPARATE_DOWN, LINE_ROW)
 	}
 
 	if is_line_start {
-		return fmt.Sprintf("%s%s",SEPARATE, LINE_ROW)
+		return fmt.Sprintf("%s%s", SEPARATE, LINE_ROW)
 	}
 
 	// add separating
 	if index == 0 {
-		return fmt.Sprintf("%s ",SEPARATE_UP)
+		return fmt.Sprintf("%s ", SEPARATE_UP)
 	}
 
 	if index == len(range_arr)-1 {
-		return fmt.Sprintf("%s ",SEPARATE_DOWN)
+		return fmt.Sprintf("%s ", SEPARATE_DOWN)
 	}
 
-	return fmt.Sprintf("%s ",SEPARATE)
+	return fmt.Sprintf("%s ", SEPARATE)
 }
 
 // x = previsou number
@@ -105,7 +104,7 @@ func get_symbol(x, y, current int) string {
 	}
 
 	// if current is at point
-	if current == x && isUp  {
+	if current == x && isUp {
 		return TURN_LEFT_DOWN
 	}
 
@@ -113,14 +112,13 @@ func get_symbol(x, y, current int) string {
 		return TURN_LEFT_UP
 	}
 
-
 	if canWriteDown && current == y {
 		return TURN_RIGHT_DOWN
-	} 
-	
+	}
+
 	if canWriteUp && current == y {
-		return TURN_RIGHT_UP 
-	} 
+		return TURN_RIGHT_UP
+	}
 
 	if canWriteDown {
 		return LINE_COLUMN
@@ -207,7 +205,11 @@ func cprint(sorted []int, main []int) {
 			symbol := get_symbol(letter, future_letter, line_index)
 
 			var spaces string
-			if symbol == "" { spaces = " " } else { spaces = "" }
+			if symbol == "" {
+				spaces = " "
+			} else {
+				spaces = ""
+			}
 
 			chart_numbers[y] = fmt.Sprintf("%s%s%s", chart_numbers[y], spaces, symbol)
 		}
@@ -220,10 +222,8 @@ func cprint(sorted []int, main []int) {
 }
 
 func main() {
-	fmt.Printf("Get stock price for BTC\n\n")
-
 	// get currency and sort it
-	items := []int{ -2, 3,3, 7, 9, 15, 8, 11, 4, 14, 2}
+	items := []int{-2, 3, 3, 7, 9, 15, 8, 11, 4, 14, 2}
 	var currency []int
 	var sortedCurrency []int
 

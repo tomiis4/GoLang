@@ -1,7 +1,7 @@
 # Line Count
 A programm which will count lines of code in current directory
 
-<img src="https://media.discordapp.net/attachments/736674176265355264/1083828335513182248/image.png?width=266&height=155">
+<img src="https://media.discordapp.net/attachments/772927831441014847/1138179120480657438/image.png?width=577&height=500">
 
 ### TODO
 - [ ] custom exclude files

@@ -2,6 +2,8 @@
 
 CLI game, where you can test your programming language guessing skills
 
+![img](https://media.discordapp.net/attachments/772927831441014847/1138177129733955604/image.png?width=1037&height=500)
+
 ### Todo
 - [x] UI
 - [ ] Colors
