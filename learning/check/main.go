@@ -4,11 +4,10 @@ import (
 	"fmt"
 	"reflect"
 	"sort"
-	"encoding/json"
 )
 
 func main() {
-	// cap 
+	// cap
 	//		cap == len ?
 	arr := [10]int{}
 	arr[0] = 1
@@ -18,11 +17,11 @@ func main() {
 
 	// copy
 	//		value is copied to first argument,
-	//		if second argument is smaller, 
+	//		if second argument is smaller,
 	//     argument 1 still have old value
 	//		 example: copy({1,2,3}, {5,6}) -> {5,6,3}
-	val1 := []int{1,2,3}
-	val2 := []int{5,6}
+	val1 := []int{1, 2, 3}
+	val2 := []int{5, 6}
 
 	copy(val1, val2)
 
@@ -31,8 +30,8 @@ func main() {
 	// append
 	//		return slice where you appended value
 	//		slice1 = {8,9,7,5}
-	slice1 := []int{1,2,3}
-	slice2 := []int{8,9,7}
+	slice1 := []int{1, 2, 3}
+	slice2 := []int{8, 9, 7}
 
 	slice1 = append(slice2, 5)
 
@@ -41,7 +40,7 @@ func main() {
 	// map
 	//		as array have index, map have key in loop
 	//		if you are getting element by key, you are getting 2 variables, 1=value, 2=if it exist
-	maps := map[string]int{ "x":10, "y":15 }
+	maps := map[string]int{"x": 10, "y": 15}
 
 	for key, value := range maps {
 		fmt.Println(key, value)
@@ -53,22 +52,21 @@ func main() {
 	// reflect
 	//		check if types work
 	var str string = "hello"
-	var num64 int64 = 5645412 
+	var num64 int64 = 5645412
 
 	fmt.Println(str, ":", reflect.TypeOf(str), "\n", num64, ":", reflect.TypeOf(num64))
 
-    // convert
-    bytes := []byte("Ahoj")
-    fmt.Println(string(bytes), bytes)
+	// convert
+	bytes := []byte("Ahoj")
+	fmt.Println(string(bytes), bytes)
 
-    // sort
-    sort.Ints([]int{5,1})
-    sort.Strings([]string{"a", "cx"})
-    // sort.Float64s()
-    arr1 := []int64{5,6}
-    sort.Slice(arr1, func(i, j int) bool {
-        return arr1[i] > arr1[j]
-    })
+	// sort
+	sort.Ints([]int{5, 1})
+	sort.Strings([]string{"a", "cx"})
+	// sort.Float64s()
+	arr1 := []int64{5, 6}
+	sort.Slice(arr1, func(i, j int) bool {
+		return arr1[i] > arr1[j]
+	})
 
-    // json
 }
