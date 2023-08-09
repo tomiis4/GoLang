@@ -53,6 +53,7 @@
     * [json](#json)
     * [net/http](#nethttp)
     * [sort](#sort)
+    * [slices](#slices)
     * [time](#time)
     * [math/rand](#mathrand)
     * [testing](#testing)
@@ -654,6 +655,32 @@ sort.Slice(arr, func(i, j int) bool {
 })
 ```
 
+### slices
+```
+import "slices"
+
+// biggest number
+slices.Max(slice)
+
+// smallest number
+slices.Min(slice)
+
+// clone slice
+slices.Clone(slice)
+
+// reverse slice (modifi slice)
+slices.Reverse(slice)
+
+// sort slice (modifi slice)
+slices.Sort(slice)
+
+// index of element, -1 if don't
+slices.Index(slice, value)
+
+// if 2 slices are same
+slices.Index(slice, slice2)
+```
+
 ### time
 
 #### Delay
@@ -723,8 +750,7 @@ reflect.TypeOf(<variable>) // return type
 
 
 ## Todo
-- [ ] stdlib -> encoding, strconv, strings, bytes, crypto, os, slices, maps
-- [ ] buildin -> min, max, clear
+- [ ] stdlib -> encoding, strconv, strings, bytes, crypto, os, maps
 
 
 ## Project ideas

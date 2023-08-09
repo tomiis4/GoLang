@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"reflect"
+	"slices"
 	"sort"
 )
 
@@ -81,7 +82,21 @@ func main() {
     //     "foo": 5,
     // }
 
-    fmt.Println(maps, len(maps))
-    clear(maps)
-    fmt.Println(maps, len(maps))
+    // fmt.Println(maps, len(maps))
+
+    // slices
+    // slices.Max[slices]()
+    sl := []int8{5,58,5,65,1}
+    sl2 := []int8{5,58,5,65,1}
+
+    print("\n\nSLices\n")
+    fmt.Println(slices.Max(sl))
+    fmt.Println(slices.Min(sl))
+    fmt.Println(slices.Clip(sl))
+    fmt.Println(slices.Clone(sl))
+    // fmt.Println(slices.Sort(sl))
+    fmt.Println(slices.Index(sl, 58))
+    fmt.Println(slices.Equal(sl, sl2))
+    // fmt.Println(slices.Reverse(sl))
+    fmt.Println(slices.Contains(sl, 58))
 }
