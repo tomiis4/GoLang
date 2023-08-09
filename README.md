@@ -30,6 +30,8 @@
     * [length](#length)
     * [panic](#panic)
     * [copy](#copy)
+    * [clear](#clear)
+    * [max/min](#maxmin)
 
 </td>
 <td>
@@ -177,7 +179,7 @@ maps := map[<key-type>]<value-type>{}
 // define map with values
 maps := map[string]int{
     "bar": 10,
-    "foo": 5
+    "foo": 5,
 }
 
 // add new key
@@ -370,6 +372,29 @@ panic( <message> )
 ### Copy
 ```go
 copy(<slice-to>, <slice-from>)
+```
+
+### Clear
+```go
+// SLICE: after clear = {0,0}
+nums := []int8{69, 32}
+clear(nums)
+
+// MAP: after clear = map[]
+maps := map[string]int8{
+    "foo": 5,
+    "bar": 10,
+}
+clear(maps)
+```
+
+### Max/Min
+```go
+// get biggest number
+max(5,1,3,4) // 5
+
+// get smallest number
+max(5,1,3,4) // 1
 ```
 
 
@@ -698,7 +723,8 @@ reflect.TypeOf(<variable>) // return type
 
 
 ## Todo
-- [ ] stdlib -> encoding, strconv, strings
+- [ ] stdlib -> encoding, strconv, strings, bytes, crypto, os, slices, maps
+- [ ] buildin -> min, max, clear
 
 
 ## Project ideas

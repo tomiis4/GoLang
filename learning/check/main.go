@@ -69,4 +69,19 @@ func main() {
 		return arr1[i] > arr1[j]
 	})
 
+	// nums := [6]int{5, 4, 9, 7, 2, 3}
+	fmt.Println(min(5, 1, 2))
+
+	nums := []string{"foo", "bar"}
+	clear(nums)
+	fmt.Println(nums, nums[1], len(nums), cap(nums))
+
+    // maps := map[string]int{
+    //     "bar": 10,
+    //     "foo": 5,
+    // }
+
+    fmt.Println(maps, len(maps))
+    clear(maps)
+    fmt.Println(maps, len(maps))
 }
