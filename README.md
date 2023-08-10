@@ -656,7 +656,7 @@ sort.Slice(arr, func(i, j int) bool {
 ```
 
 ### slices
-```
+```go
 import "slices"
 
 // biggest number
