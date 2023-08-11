@@ -1,0 +1,3 @@
+[submodule "compilers/CompiGo"]
+	path = compilers/CompiGo
+	url = https://github.com/tomiis4/CompiGo
