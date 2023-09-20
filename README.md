@@ -445,7 +445,7 @@ received := <-ch
 // close channel
 close(ch)
 
-// check if channel was cloed
+// check if channel was closed
 received, ok := <-ch // ok = bool
 ```
 
