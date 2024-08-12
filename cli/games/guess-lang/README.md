@@ -2,7 +2,7 @@
 
 CLI game, where you can test your programming language guessing skills
 
-![img](https://media.discordapp.net/attachments/772927831441014847/1138177129733955604/image.png?width=1037&height=500)
+![image9](https://github.com/user-attachments/assets/4a3e2f8e-f83f-4bed-8e0a-61f8f0890f57)
 
 ### Todo
 - [x] UI
